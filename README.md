@@ -1,4 +1,4 @@
-# Grupo 2.3 - Sistema gerencial para hotéis e pousadas
+# Grupo 17 - Sistema gerencial para hotéis e pousadas
 
 1. Cauê Montrose Bianchim
 2. Clayton de Oliveira Silva
