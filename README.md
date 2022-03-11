@@ -31,7 +31,6 @@ $ python waitress_server.py
 ```
 
 ## Módulos
-Texto...
 
 ### Quartos
 Texto...
