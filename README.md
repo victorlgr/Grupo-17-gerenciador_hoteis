@@ -25,7 +25,7 @@ $ python app.py
 ```
 
 
-Para executar em modo de desenvolvimento:
+Para executar em modo de produção:
 ```
 $ python waitress_server.py
 ```
