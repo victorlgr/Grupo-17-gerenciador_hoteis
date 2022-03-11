@@ -10,3 +10,22 @@ O projeto consiste na criação de um sistema gerencial para hotéis e pousadas.
 hóspedes, estadia, reservas, etc, módulo sobre contas a pagar e a receber, módulo sobre controle de estoque e módulo de indicadores.
 
 * https://drive.google.com/file/d/14h7T6Cjqp_8NdUAzbIs4BVQeQmLfUjij/view?usp=sharing
+
+## Instalação e execução
+
+Para instalar as bibliotecas necessárias:
+
+```
+$ pip install -r requirements.txt
+```
+
+Para executar em modo de desenvolvimento:
+```
+$ python app.py
+```
+
+
+Para executar em modo de desenvolvimento:
+```
+$ python waitress_server.py
+```
