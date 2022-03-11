@@ -29,3 +29,21 @@ Para executar em modo de desenvolvimento:
 ```
 $ python waitress_server.py
 ```
+
+## Módulos
+Texto...
+
+### Quartos
+Texto...
+
+### Reservas
+Texto...
+
+### Financeiro
+Texto...
+
+### Pedidos
+Texto...
+
+### Indicadores
+Texto...
