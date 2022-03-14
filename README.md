@@ -21,7 +21,7 @@ $ pip install -r requirements.txt
 
 Para executar em modo de desenvolvimento:
 ```
-$ python app.py
+$ flask run
 ```
 
 
