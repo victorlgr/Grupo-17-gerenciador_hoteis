@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app import app, login_manager
 from app.forms import ExampleForm, LoginForm
 from app.models import User
+from app.scripts.adicionar_hotel import adicionar_hotel
 
 
 @app.route('/')
@@ -63,3 +64,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/adicionar-hotel/', methods=['GET', 'POST'])
+def adicionar_hotel_endpoint():
+    return adicionar_hotel()
