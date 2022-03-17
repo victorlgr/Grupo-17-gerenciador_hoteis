@@ -25,6 +25,18 @@ class AdicionarHotel(FlaskForm):
 	bairro = StringField('Bairro', validators=[DataRequired()])
 	cidade = StringField('Cidade', validators=[DataRequired()])
 	estado = StringField('Estado', validators=[DataRequired()])
+	pais = StringField('Pais', validators=[DataRequired()])
 	cep = StringField('CEP', validators=[DataRequired()])
+
+	submeter = SubmitField('Submeter')
+
+
+class AdicionarQuarto(FlaskForm):
+	number = StringField('Número', validators=[DataRequired()])
+	kind = StringField('Tipo', validators=[DataRequired()])
+	phone_extension = StringField('Extensão telefone', validators=[DataRequired()])
+	price = StringField('Preço', validators=[DataRequired()])
+	guest_limit = StringField('Número de hóspedes', validators=[DataRequired()])
+	status = StringField('Status', validators=[DataRequired()])
 
 	submeter = SubmitField('Submeter')

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Lista de hoteis cadastrados</h1>
+
+    <table class="table table-hover">
+        {% for hotel in hoteis %}
+            <tr>
+                <td>{{ hotel.name }} - {{ hotel.phone }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

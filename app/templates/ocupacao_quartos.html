@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Ocupação dos quartos</h1>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for quarto in quartos %}
+            <div class="col">
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+                        <h2>Quarto {{ quarto.number }}</h2>
+                        <p>Tipo: {{ quarto.kind }}</p>
+                        <p>Preço: {{ quarto.price }}</p>
+                        <p>Hóspedes: {{ quarto.guest_limit }}</p>
+                        <p>Status: {{ quarto.status }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form method="POST" action="{{ url_for('editar_quarto_endpoint', id=quarto.id) }}">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                            value="{{ quarto.id }}">
+                                        Editar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
