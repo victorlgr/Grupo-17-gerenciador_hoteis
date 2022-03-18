@@ -3,6 +3,18 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
+
+from flask_login import (
+    UserMixin,
+    login_user,
+    LoginManager,
+    current_user,
+    logout_user,
+    login_required,
+)
+
 app = Flask(__name__)
 
 #Configuration of application, see configuration.py, choose one and uncomment.
@@ -12,10 +24,15 @@ app.config.from_object('app.configuration.DevelopmentConfig')
 
 bs = Bootstrap(app) #flask-bootstrap
 db = SQLAlchemy(app) #flask-sqlalchemy
+migrate = Migrate(app, db)
+bcrypt = Bcrypt()
+bcrypt.init_app(app)
 
 login_manager = LoginManager()
 login_manager.setup_app(app)
 login_manager.login_view = 'login'
+login_manager.session_protection = "strong"
+login_manager.login_message_category = "info"
 
 
 from app import views, models

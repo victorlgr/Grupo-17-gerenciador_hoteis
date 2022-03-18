@@ -5,7 +5,8 @@
 
 {%block content%}
 
-	<h1>Novo</h1>
+	<h1>Olá {{ current_user.name }}!</h1>
+	<h3>Cadastro de Usuario</h3>
 	<div class="row">
 		<div class="col-sm">
 
@@ -13,13 +14,14 @@
 				{{ wtf.form_errors(form,"only") }}
 
 				{{ form.hidden_tag() }}
-				{{ wtf.horizontal_field(form.title) }}<br>
-				{{ wtf.horizontal_field(form.content) }}
-				{{ wtf.horizontal_field(form.date) }}
-				{# wtf.horizontal_field(form.recaptcha) #}
+				{{ wtf.form_field(form.name) }}<br>
+				{{ wtf.form_field(form.email) }}
+				{{ wtf.form_field(form.password) }}
+				{{ wtf.form_field(form.password_confirmation) }}
+				{# wtf.form_field(form.recaptcha) #}
 
 				<div class="form-actions">
-					<button name="action_save" type="submit" class="btn btn-primary">Salvar</button>
+					<button name="action_save" type="submit" class="btn btn-primary">Cadastrar</button>
 				</div>
 			</form>
 

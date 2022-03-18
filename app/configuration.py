@@ -1,9 +1,9 @@
 
 class Config(object):
 	# Configuration base, for all environments.
-	DEBUG = False
+	DEBUG = True
 	TESTING = False
-	SQLALCHEMY_DATABASE_URI = 'sqlite:///application.db'
+	SQLALCHEMY_DATABASE_URI = 'sqlite:///../application.db'
 	BOOTSTRAP_FONTAWESOME = True
 	SECRET_KEY = "MINHACHAVESECRETA"
 	CSRF_ENABLED = True
