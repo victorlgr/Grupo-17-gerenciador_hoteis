@@ -1,25 +1,52 @@
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/login.css') }}">
+
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {%block content%}
+	<section class="vh-100 gradient-custom">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card bg-dark text-white" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+	
+							<div class="mb-md-5 mt-md-4 pb-5">
+	
+								<h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+								<p class="text-white-50 mb-5">Por favor insira seu login and senha!</p>
+	
+								<form action="." method="post" class="form form-horizontal" name="loginform">
+									{{ wtf.form_errors(form,"only") }}
+									{{ form.csrf_token }}
 
-	<h1>{%block title%}Login!{%endblock%}</h1>
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-
-			<form action="." method="post" class="form form-horizontal" name="loginform">
-				{{ wtf.form_errors(form,"only") }}
-
-				{{ form.hidden_tag() }}
-				{{ wtf.form_field(form.email) }}<br>
-				{{ wtf.form_field(form.password) }}
-
-				<div class="form-actions">
-					<button name-"action_save" type="submit" class="btn btn-primary">Salvar</button>
+									<div class="form-outline form-white mb-4">
+										<input name="email" type="email" id="typeEmailX" class="form-control form-control-lg" />
+										<label class="form-label" for="typeEmailX">E-mail</label>
+									</div>
+	
+									<div class="form-outline form-white mb-4">
+										<input name="password" type="password" id="typePasswordX" class="form-control form-control-lg" />
+										<label class="form-label" for="typePasswordX">Password</label>
+									</div>
+	
+									<p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Esqueceu a senha?</a></p>
+	
+									<button name="action_save" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+								</form>
+								
+							</div>
+	
+							<div>
+								<p class="mb-0">Não tem uma conta? <a href="#!" class="text-white-50 fw-bold">Cadastre-se</a></p>
+							</div>
+	
+						</div>
+					</div>
 				</div>
-			</form>
-
+			</div>
 		</div>
-	</div>
+	</section>
 
 {%endblock%}
+
