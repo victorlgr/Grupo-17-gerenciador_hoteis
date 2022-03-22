@@ -4,9 +4,20 @@
     <h1>Lista de hoteis cadastrados</h1>
 
     <table class="table table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>E-mail</th>
+        <th>CNPJ</th>
+    </tr>
         {% for hotel in hoteis %}
             <tr>
-                <td>{{ hotel.name }} - {{ hotel.phone }}</td>
+                <td><a href="{{ url_for('editar_hotel_endpoint', id=hotel.id) }}">{{ hotel.id }}</a></td>
+                <td>{{ hotel.name }}</td>
+                <td>{{ hotel.phone }}</td>
+                <td>{{ hotel.email }}</td>
+                <td>{{ hotel.cnpj }}</td>
             </tr>
         {% endfor %}
     </table>

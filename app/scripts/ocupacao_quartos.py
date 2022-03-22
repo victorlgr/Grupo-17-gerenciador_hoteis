@@ -1,17 +1,20 @@
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import AdicionarQuarto
-from app.models import Rooms
+from app.models import Rooms, Hotels
 from app import db
 
 
 def adicionar_quarto():
     form = AdicionarQuarto()
+    hoteis = Hotels.query.order_by(Hotels.created_at)
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            room = Rooms.query.filter_by(number=form.number.data).first()
+            room = Rooms.query.filter_by(hotel_id=form.hotel_id.data, number=form.number.data).first()
             if room is None:
                 room = Rooms(number=form.number.data,
+                             hotel_id=form.hotel_id.data,
                              kind=form.kind.data,
                              phone_extension=form.phone_extension.data,
                              price=form.price.data,
@@ -26,12 +29,14 @@ def adicionar_quarto():
         return redirect('/adicionar-quarto')
 
     return render_template('adicionar_quartos.html',
-                           form=form
+                           form=form,
+                           hoteis=hoteis,
+                           titulo='Adicionar quarto'
                            )
 
 
 def ocupacao_quartos():
-    quartos = Rooms.query.order_by(Rooms.created_at)
+    quartos = Rooms.query.order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
                            quartos=quartos
                            )
@@ -39,10 +44,13 @@ def ocupacao_quartos():
 
 def editar_quarto(quarto):
     form = AdicionarQuarto()
+    hoteis = Hotels.query.order_by(Hotels.created_at)
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
 
     if form.validate_on_submit():
         if request.method == 'POST':
             to_update = Rooms.query.get_or_404(quarto)
+            to_update.hotel_id = request.form['hotel_id']
             to_update.number = request.form['number']
             to_update.kind = request.form['kind']
             to_update.phone_extension = request.form['phone_extension']
@@ -61,6 +69,7 @@ def editar_quarto(quarto):
     form.guest_limit.data = room.guest_limit
     form.status.data = room.status
 
-    return render_template('editar_quarto.html',
-                           form=form
+    return render_template('adicionar_quartos.html',
+                           form=form,
+                           titulo='Editar quarto'
                            )

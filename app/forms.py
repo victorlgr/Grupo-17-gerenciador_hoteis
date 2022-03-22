@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, DateTimeField, PasswordField, SubmitField
+from wtforms import StringField, TextAreaField, DateTimeField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, DataRequired
 
 
@@ -19,6 +19,7 @@ class AdicionarHotel(FlaskForm):
 	name = StringField('Nome', validators=[DataRequired()])
 	phone = StringField('Telefone', validators=[DataRequired()])
 	email = StringField('E-mail', validators=[DataRequired()])
+	cnpj = StringField('CNPJ', validators=[DataRequired()])
 	endereco = StringField('Endereço', validators=[DataRequired()])
 	numero = StringField('Número', validators=[DataRequired()])
 	complemento = StringField('Complemento', validators=[DataRequired()])
@@ -32,6 +33,7 @@ class AdicionarHotel(FlaskForm):
 
 
 class AdicionarQuarto(FlaskForm):
+	hotel_id = SelectField('Hotel', validators=[DataRequired()])
 	number = StringField('Número', validators=[DataRequired()])
 	kind = StringField('Tipo', validators=[DataRequired()])
 	phone_extension = StringField('Extensão telefone', validators=[DataRequired()])

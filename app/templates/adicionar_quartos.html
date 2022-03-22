@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Adicionar quarto</h1>
+    <h1>{{ titulo }}</h1>
 
     {% for mensagem in get_flashed_messages() %}
         {% if mensagem == 'Quarto cadastrado com sucesso!' %}
@@ -18,6 +18,10 @@
         {{ form.hidden_tag() }}
 
         <div class="row">
+            <div class="form-group col-6">
+                {{ form.hotel_id.label(class="form-label") }}
+                {{ form.hotel_id(class="form-control") }}
+            </div>
             <div class="form-group col-6">
                 {{ form.number.label(class="form-label") }}
                 {{ form.number(class="form-control") }}

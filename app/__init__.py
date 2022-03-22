@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 
@@ -12,6 +13,7 @@ app.config.from_object('app.configuration.DevelopmentConfig')
 
 bs = Bootstrap(app) #flask-bootstrap
 db = SQLAlchemy(app) #flask-sqlalchemy
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.setup_app(app)

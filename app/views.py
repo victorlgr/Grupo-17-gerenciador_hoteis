@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app import app, login_manager
 from app.forms import ExampleForm, LoginForm
 from app.models import User
-from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis
+from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto
 
 
@@ -75,6 +75,11 @@ def adicionar_hotel_endpoint():
 @app.route('/lista-hotel/')
 def lista_hotel():
     return listar_hoteis()
+
+
+@app.route('/editar-hotel/<int:id>', methods=['GET', 'POST'])
+def editar_hotel_endpoint(id):
+    return editar_hotel(id)
 
 
 @app.route('/adicionar-quarto/', methods=['GET', 'POST'])

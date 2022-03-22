@@ -7,6 +7,8 @@ class Hotels(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
     phone = db.Column(db.String(20))
+    email = db.Column(db.String(30))
+    cnpj = db.Column(db.String(25))
     address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
     created_at = db.Column(db.DateTime, default=dt.now())
 
@@ -34,6 +36,7 @@ class Addresses(db.Model):
     state = db.Column(db.String(20))
     country = db.Column(db.String(20))
     zip_code = db.Column(db.String(10))
+    number = db.Column(db.String(10))
     complement = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=dt.now())
 

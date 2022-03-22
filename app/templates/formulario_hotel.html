@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Formulario hotel!</h1>
+    <h1>{{ titulo }}</h1>
 
     {% for mensagem in get_flashed_messages() %}
         {% if mensagem == 'Hotel cadastrado com sucesso!' %}
@@ -31,6 +31,11 @@
             <div class="form-group col-6">
                 {{ form.email.label(class="form-label") }}
                 {{ form.email(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.cnpj.label(class="form-label") }}
+                {{ form.cnpj(class="form-control") }}
             </div>
 
             <div class="form-group col-6">
