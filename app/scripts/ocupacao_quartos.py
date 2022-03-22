@@ -62,6 +62,8 @@ def editar_quarto(quarto):
 
     room = Rooms.query.filter_by(id=quarto).first()
 
+    form.hotel_id.default = room.hotel_id
+    form.process()
     form.number.data = room.number
     form.kind.data = room.kind
     form.phone_extension.data = room.phone_extension
