@@ -35,8 +35,8 @@ def adicionar_quarto():
                            )
 
 
-def ocupacao_quartos():
-    quartos = Rooms.query.order_by(Rooms.number)
+def ocupacao_quartos(id):
+    quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
                            quartos=quartos
                            )

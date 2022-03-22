@@ -87,9 +87,9 @@ def adicionar_quarto_endpoint():
     return adicionar_quarto()
 
 
-@app.route('/ocupacao-quartos/')
-def ocupacao_quartos_endpoint():
-    return ocupacao_quartos()
+@app.route('/ocupacao-quartos/<int:id>')
+def ocupacao_quartos_endpoint(id):
+    return ocupacao_quartos(id)
 
 
 @app.route('/editar-quarto/<int:id>', methods=['GET', 'POST'])
