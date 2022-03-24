@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
