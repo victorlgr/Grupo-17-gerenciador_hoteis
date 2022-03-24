@@ -1,4 +1,5 @@
 from app import db
+from flask_login import UserMixin
 from datetime import datetime as dt
 
 
@@ -47,11 +48,13 @@ class ModelExample(db.Model):
     date = db.Column(db.DateTime)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key = True)
-    user = db.Column(db.String(64), unique = True)
-    password = db.Column(db.String(500))
     name = db.Column(db.String(500))
+    password = db.Column(db.String(500))
+    password_confirmation = db.Column(db.String(500))
+    profile = db.Column(db.String(15))
     email = db.Column(db.String(120), unique = True)
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
@@ -68,4 +71,11 @@ class User(db.Model):
         return str(self.id)
 
     def __repr__(self):
-        return '<User %r>' % (self.nickname)
+        return '<User %r %r>' % (self.name, self.password)
+
+    def __init__(self, name, password, password_confirmation, profile, email):
+        self.name = name
+        self.password = password
+        self.password_confirmation = password_confirmation
+        self.profile = profile
+        self.email = email

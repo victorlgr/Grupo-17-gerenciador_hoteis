@@ -1,17 +1,19 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, DateTimeField, PasswordField, SubmitField, SelectField
-from wtforms.validators import InputRequired, DataRequired
+from wtforms.validators import InputRequired, DataRequired, EqualTo
 
 
-class ExampleForm(FlaskForm):
-	title = StringField(u'Título', validators = [InputRequired()])
-	content = TextAreaField(u'Conteúdo')
-	date = DateTimeField(u'Data', format='%d/%m/%Y %H:%M')
+class CreateUserForm(FlaskForm):
+	name = StringField(u'Nome', validators = [InputRequired()])
+	email = StringField(u'E-mail', validators = [InputRequired()])
+	password = PasswordField(u'Senha', validators = [InputRequired()])
+	password_confirmation = PasswordField(u'Confirmação de Senha', validators = [InputRequired(), DataRequired(), EqualTo('password')])
+	# date = DateTimeField(u'Data', format='%d/%m/%Y %H:%M')
 	#recaptcha = RecaptchaField(u'Recaptcha')
 
 
 class LoginForm(FlaskForm):
-	user = StringField(u'Usuário', validators = [InputRequired()])
+	email = StringField(u'Email', validators = [InputRequired()])
 	password = PasswordField(u'Senha', validators = [InputRequired()])
 
 
