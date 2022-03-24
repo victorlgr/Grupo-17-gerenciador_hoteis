@@ -58,7 +58,7 @@ def editar_quarto(quarto):
             to_update.guest_limit = request.form['guest_limit']
             to_update.status = request.form['status']
             db.session.commit()
-        return redirect('/ocupacao-quartos')
+        return redirect(f"/ocupacao-quartos/{request.form['hotel_id']}")
 
     room = Rooms.query.filter_by(id=quarto).first()
 

@@ -9,6 +9,7 @@ class Hotels(db.Model):
     name = db.Column(db.String(30))
     phone = db.Column(db.String(20))
     address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
+    user_id = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=dt.now())
 
 
