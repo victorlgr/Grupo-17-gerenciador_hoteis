@@ -4,7 +4,7 @@ from app.models import Hotels, Addresses
 from app import db
 
 
-def adicionar_hotel():
+def adicionar_hotel(user_id):
     form = AdicionarHotel()
 
     if request.method == 'POST':
@@ -27,7 +27,8 @@ def adicionar_hotel():
                                phone=form.phone.data,
                                email=form.email.data,
                                cnpj=form.cnpj.data,
-                               address_id=address.id)
+                               address_id=address.id,
+                               user_id=user_id)
 
                 db.session.add(hotel)
                 db.session.commit()
@@ -43,8 +44,8 @@ def adicionar_hotel():
                            )
 
 
-def listar_hoteis():
-    hoteis = Hotels.query.order_by(Hotels.created_at)
+def listar_hoteis(user_id):
+    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
     return render_template('lista_hoteis_cadastrados.html',
                            hoteis=hoteis
                            )

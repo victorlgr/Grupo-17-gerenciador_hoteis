@@ -10,6 +10,7 @@ class Hotels(db.Model):
     phone = db.Column(db.String(20))
     email = db.Column(db.String(30))
     cnpj = db.Column(db.String(25))
+    user_id = db.Column(db.Integer)
     address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
     created_at = db.Column(db.DateTime, default=dt.now())
 
@@ -68,7 +69,7 @@ class User(db.Model, UserMixin):
         return False
 
     def get_id(self):
-        return str(self.id)
+        return self.id
 
     def __repr__(self):
         return '<User %r %r>' % (self.name, self.password)

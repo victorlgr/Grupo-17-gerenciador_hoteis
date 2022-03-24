@@ -29,7 +29,7 @@ def new():
 
 
 @app.route('/save/', methods = ['GET','POST'])
-@login_required
+#@login_required
 def save():
     form = CreateUserForm()
     if form.validate_on_submit():
@@ -74,17 +74,19 @@ def login():
 @app.route('/logout/')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('pagina_inicial'))
 
 
 @app.route('/adicionar-hotel/', methods=['GET', 'POST'])
 def adicionar_hotel_endpoint():
-    return adicionar_hotel()
+    user_id = g.user.get_id()
+    return adicionar_hotel(user_id)
 
 
 @app.route('/lista-hotel/')
 def lista_hotel():
-    return listar_hoteis()
+    user_id = g.user.get_id()
+    return listar_hoteis(user_id)
 
 
 @app.route('/editar-hotel/<int:id>', methods=['GET', 'POST'])
