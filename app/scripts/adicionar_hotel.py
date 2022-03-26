@@ -51,7 +51,13 @@ def listar_hoteis(user_id):
                            )
 
 
-def editar_hotel(hotel):
+def editar_hotel(hotel, user_id):
+    hotel_data = Hotels.query.filter_by(id=hotel).first()
+    address_data = Addresses.query.filter_by(id=hotel_data.address_id).first()
+
+    if hotel_data.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     form = AdicionarHotel()
 
     if form.validate_on_submit():
@@ -72,9 +78,6 @@ def editar_hotel(hotel):
             to_update_address.complement = form.complemento.data
             db.session.commit()
         return redirect('/lista-hotel')
-
-    hotel_data = Hotels.query.filter_by(id=hotel).first()
-    address_data = Addresses.query.filter_by(id=hotel_data.address_id).first()
 
     form.name.data = hotel_data.name
     form.phone.data = hotel_data.phone

@@ -91,12 +91,14 @@ def lista_hotel():
 
 @app.route('/editar-hotel/<int:id>', methods=['GET', 'POST'])
 def editar_hotel_endpoint(id):
-    return editar_hotel(id)
+    user_id = g.user.get_id()
+    return editar_hotel(id, user_id)
 
 
 @app.route('/adicionar-quarto/', methods=['GET', 'POST'])
 def adicionar_quarto_endpoint():
-    return adicionar_quarto()
+    user_id = g.user.get_id()
+    return adicionar_quarto(user_id)
 
 
 @app.route('/ocupacao-quartos/<int:id>')
@@ -106,4 +108,5 @@ def ocupacao_quartos_endpoint(id):
 
 @app.route('/editar-quarto/<int:id>', methods=['GET', 'POST'])
 def editar_quarto_endpoint(id):
-    return editar_quarto(id)
+    user_id = g.user.get_id()
+    return editar_quarto(id, user_id)

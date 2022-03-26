@@ -4,10 +4,10 @@ from app.models import Rooms, Hotels
 from app import db
 
 
-def adicionar_quarto():
+def adicionar_quarto(user_id):
     form = AdicionarQuarto()
     hoteis = Hotels.query.order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -42,10 +42,17 @@ def ocupacao_quartos(id):
                            )
 
 
-def editar_quarto(quarto):
+def editar_quarto(quarto, user_id):
+
+    user_id_room = Rooms\
+        .query.filter_by(id=quarto)\
+        .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id)
+    if [i.user_id for i in user_id_room][0] != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     form = AdicionarQuarto()
     hoteis = Hotels.query.order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
 
     if form.validate_on_submit():
         if request.method == 'POST':
