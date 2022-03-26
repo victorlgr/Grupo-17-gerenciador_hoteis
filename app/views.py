@@ -78,35 +78,41 @@ def logout():
 
 
 @app.route('/adicionar-hotel/', methods=['GET', 'POST'])
+@login_required
 def adicionar_hotel_endpoint():
     user_id = g.user.get_id()
     return adicionar_hotel(user_id)
 
 
 @app.route('/lista-hotel/')
+@login_required
 def lista_hotel():
     user_id = g.user.get_id()
     return listar_hoteis(user_id)
 
 
 @app.route('/editar-hotel/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_hotel_endpoint(id):
     user_id = g.user.get_id()
     return editar_hotel(id, user_id)
 
 
 @app.route('/adicionar-quarto/', methods=['GET', 'POST'])
+@login_required
 def adicionar_quarto_endpoint():
     user_id = g.user.get_id()
     return adicionar_quarto(user_id)
 
 
 @app.route('/ocupacao-quartos/<int:id>')
+@login_required
 def ocupacao_quartos_endpoint(id):
     return ocupacao_quartos(id)
 
 
 @app.route('/editar-quarto/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_quarto_endpoint(id):
     user_id = g.user.get_id()
     return editar_quarto(id, user_id)
