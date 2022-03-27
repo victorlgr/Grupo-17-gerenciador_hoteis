@@ -2,6 +2,13 @@
 {% block content %}
     <h1>Ocupação dos quartos</h1>
 
+    {% for mensagem in get_flashed_messages() %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {% for quarto in quartos %}
             <div class="col">
@@ -19,8 +26,36 @@
                                             value="{{ quarto.id }}">
                                         Editar
                                     </button>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            data-bs-target="#Modal_{{ quarto.id }}"
+                                            value="{{ quarto.id }}" id="hotel_{{ quarto.id }}">
+                                        Deletar
+                                    </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="Modal_{{ quarto.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar quarto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar o quarto <b>{{ quarto.number }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_quarto_endpoint', id=quarto.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>

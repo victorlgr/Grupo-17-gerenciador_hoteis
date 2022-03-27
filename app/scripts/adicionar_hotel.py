@@ -51,6 +51,16 @@ def listar_hoteis(user_id):
                            )
 
 
+def deletar_hotel(id, user_id):
+    hotel = Hotels.query.get_or_404(id)
+    if hotel.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+    db.session.delete(hotel)
+    db.session.commit()
+    flash('Hotel deletado com sucesso!')
+    return redirect('/lista-hotel')
+
+
 def editar_hotel(hotel, user_id):
     hotel_data = Hotels.query.filter_by(id=hotel).first()
     address_data = Addresses.query.filter_by(id=hotel_data.address_id).first()

@@ -35,11 +35,26 @@ def adicionar_quarto(user_id):
                            )
 
 
-def ocupacao_quartos(id):
+def ocupacao_quartos(id, user_id):
+    hotel = Hotels.query.get_or_404(id)
+    if hotel.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
                            quartos=quartos
                            )
+
+
+def deletar_quarto(id_quarto, user_id):
+    quarto = Rooms.query.get_or_404(id_quarto)
+    id_hotel = quarto.hotel_id
+    hotel = Hotels.query.get_or_404(id_hotel)
+    if hotel.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+    db.session.delete(quarto)
+    db.session.commit()
+    flash('Quarto deletado com sucesso!')
+    return redirect(f'/ocupacao-quartos/{id_hotel}')
 
 
 def editar_quarto(quarto, user_id):

@@ -25,7 +25,6 @@
                     <a class="nav-link" aria-current="page" href="#">Indicadores</a>
                 </li>
             </ul>
-            <li class="text-end">
                 {% if current_user.is_authenticated %}
                 <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">
                     <button type="button" class="btn btn-outline-light me-2">Sair</button>
@@ -35,7 +34,6 @@
                     <button type="button" class="btn btn-outline-light me-2">Entrar</button>
                 </a>
                 {% endif %}
-            </li>
         </div>
     </div>
 </nav>

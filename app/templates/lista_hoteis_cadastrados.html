@@ -3,16 +3,24 @@
 
     <h1>Lista de hoteis cadastrados</h1>
 
+    {% for mensagem in get_flashed_messages() %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
     <table class="table table-hover">
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Telefone</th>
-        <th>E-mail</th>
-        <th>CNPJ</th>
-        <th>Editar hotel</th>
-        <th>Quartos</th>
-    </tr>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>CNPJ</th>
+            <th>Editar hotel</th>
+            <th>Quartos</th>
+            <th></th>
+        </tr>
         {% for hotel in hoteis %}
             <tr>
                 <td>{{ hotel.id }}</td>
@@ -22,7 +30,36 @@
                 <td>{{ hotel.cnpj }}</td>
                 <td><a href="{{ url_for('editar_hotel_endpoint', id=hotel.id) }}">Link</a></td>
                 <td><a href="{{ url_for('ocupacao_quartos_endpoint', id=hotel.id) }}">Link</a></td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#Modal_{{ hotel.id }}"
+                            value="{{ hotel.id }}" id="hotel_{{ hotel.id }}">
+                        Deletar
+                    </button>
+                </td>
             </tr>
+            <div class="modal fade" id="Modal_{{ hotel.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar hotel</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar o hotel <b>{{ hotel.name }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_hotel_endpoint', id=hotel.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </table>
 
