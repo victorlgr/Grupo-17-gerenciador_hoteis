@@ -4,10 +4,10 @@ from app.models import Rooms, Hotels
 from app import db
 
 
-def adicionar_quarto():
+def adicionar_quarto(user_id):
     form = AdicionarQuarto()
     hoteis = Hotels.query.order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -35,17 +35,39 @@ def adicionar_quarto():
                            )
 
 
-def ocupacao_quartos(id):
+def ocupacao_quartos(id, user_id):
+    hotel = Hotels.query.get_or_404(id)
+    if hotel.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
                            quartos=quartos
                            )
 
 
-def editar_quarto(quarto):
+def deletar_quarto(id_quarto, user_id):
+    quarto = Rooms.query.get_or_404(id_quarto)
+    id_hotel = quarto.hotel_id
+    hotel = Hotels.query.get_or_404(id_hotel)
+    if hotel.user_id != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+    db.session.delete(quarto)
+    db.session.commit()
+    flash('Quarto deletado com sucesso!')
+    return redirect(f'/ocupacao-quartos/{id_hotel}')
+
+
+def editar_quarto(quarto, user_id):
+
+    user_id_room = Rooms\
+        .query.filter_by(id=quarto)\
+        .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id)
+    if [i.user_id for i in user_id_room][0] != user_id:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     form = AdicionarQuarto()
     hoteis = Hotels.query.order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
 
     if form.validate_on_submit():
         if request.method == 'POST':

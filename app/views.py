@@ -4,8 +4,8 @@ from app import app, login_manager
 from app.forms import CreateUserForm, LoginForm
 from app.models import User
 from app import db, bcrypt
-from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel
-from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto
+from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
+from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
 
 
 @app.route('/')
@@ -94,32 +94,56 @@ def logout():
 
 
 @app.route('/adicionar-hotel/', methods=['GET', 'POST'])
+@login_required
 def adicionar_hotel_endpoint():
     user_id = g.user.get_id()
     return adicionar_hotel(user_id)
 
 
 @app.route('/lista-hotel/')
+@login_required
 def lista_hotel():
     user_id = g.user.get_id()
     return listar_hoteis(user_id)
 
 
 @app.route('/editar-hotel/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_hotel_endpoint(id):
-    return editar_hotel(id)
+    user_id = g.user.get_id()
+    return editar_hotel(id, user_id)
+
+
+@app.route('/deletar-hotel/<int:id>')
+@login_required
+def deletar_hotel_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_hotel(id, user_id)
 
 
 @app.route('/adicionar-quarto/', methods=['GET', 'POST'])
+@login_required
 def adicionar_quarto_endpoint():
-    return adicionar_quarto()
+    user_id = g.user.get_id()
+    return adicionar_quarto(user_id)
 
 
 @app.route('/ocupacao-quartos/<int:id>')
+@login_required
 def ocupacao_quartos_endpoint(id):
-    return ocupacao_quartos(id)
+    user_id = g.user.get_id()
+    return ocupacao_quartos(id, user_id)
+
+
+@app.route('/deletar-quarto/<int:id>')
+@login_required
+def deletar_quarto_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_quarto(id, user_id)
 
 
 @app.route('/editar-quarto/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_quarto_endpoint(id):
-    return editar_quarto(id)
+    user_id = g.user.get_id()
+    return editar_quarto(id, user_id)
