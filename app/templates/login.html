@@ -10,31 +10,38 @@
 				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 					<div class="card bg-dark text-white" style="border-radius: 1rem;">
 						<div class="card-body p-5 text-center">
+
+							{% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+									<div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+											{{ mensagem }}
+											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+									</div>
+							{% endfor %}
 	
-							<div class="mb-md-5 mt-md-4 pb-5">
+							<div class="md-5 mt-md-4 pb-5">
 	
 								<h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-								<p class="text-white-50 mb-5">Por favor insira seu login and senha!</p>
+								<p class="text-white-50 mb-5">Por favor insira seu e-mail e senha!</p>
 	
 								<form action="." method="post" class="form form-horizontal" name="loginform">
 									{{ wtf.form_errors(form,"only") }}
 									{{ form.csrf_token }}
 
 									<div class="form-outline form-white mb-4">
-										<input name="email" type="email" id="typeEmailX" class="form-control form-control-lg" />
 										<label class="form-label" for="typeEmailX">E-mail</label>
+										<input name="email" type="email" id="typeEmailX" class="form-control form-control-lg" />
 									</div>
 	
 									<div class="form-outline form-white mb-4">
-										<input name="password" type="password" id="typePasswordX" class="form-control form-control-lg" />
 										<label class="form-label" for="typePasswordX">Password</label>
+										<input name="password" type="password" id="typePasswordX" class="form-control form-control-lg" />
 									</div>
 	
 									<p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Esqueceu a senha?</a></p>
 	
-									<button name="action_save" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+									<button name="action_save" class="btn btn-outline-light btn-lg px-5 btn-warning" type="submit">Login</button>
 								</form>
-								
+
 							</div>
 	
 							<div>

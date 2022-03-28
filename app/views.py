@@ -10,6 +10,8 @@ from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, edi
 
 @app.route('/')
 def pagina_inicial():
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('lista_hotel'))
     return render_template('index.html')
 
 @login_manager.user_loader
@@ -33,12 +35,20 @@ def new():
 def save():
     form = CreateUserForm()
     if form.validate_on_submit():
-         name = form.name.data
-         email = form.email.data
-         pwd = bcrypt.generate_password_hash(form.password.data)
-         admin = User(name=name, password=pwd, profile='admin', email=email, password_confirmation=pwd)
-         db.session.add(admin)
-         db.session.commit()
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash('E-mail já possui cadastrado.', 'danger')
+            return redirect('/new')
+        else:
+            name = form.name.data
+            email = form.email.data
+            pwd = bcrypt.generate_password_hash(form.password.data)
+            admin = User(name=name, password=pwd, profile='admin', email=email, password_confirmation=pwd)
+            db.session.add(admin)
+            db.session.commit()
+            flash('Cadastro realizado com sucesso!', 'success')
+            return redirect('/new')
+
     return render_template('new.html', form=form)
 
 
@@ -65,7 +75,13 @@ def login():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user, remember=True)
-                return redirect(url_for("new"))
+                return redirect(url_for("lista_hotel"))
+            else:
+                flash('Senha inválida. Tente novamente', 'danger')
+                return redirect('/login')
+        else:
+            flash('E-mail não encontrado.', 'danger')
+            return redirect('/login')
 
     return render_template('login.html', 
         title = 'Sign In',
