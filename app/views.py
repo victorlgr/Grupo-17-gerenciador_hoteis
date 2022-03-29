@@ -2,7 +2,7 @@ from flask import url_for, redirect, render_template, flash, g, session
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, login_manager
 from app.forms import CreateUserForm, LoginForm
-from app.models import User
+from app.models import User, Hotels
 from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
@@ -26,14 +26,20 @@ def load_user(id):
 @app.route('/new/')
 @login_required
 def new():
-	form = CreateUserForm()
-	return render_template('new.html', form=form)
+    user_id = g.user.get_id()
+    form = CreateUserForm()
+    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+    return render_template('new.html', form=form, hoteis=hoteis)
 
 
 @app.route('/save/', methods = ['GET','POST'])
 #@login_required
 def save():
+    user_id = g.user.get_id()
     form = CreateUserForm()
+    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
+    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
@@ -42,8 +48,10 @@ def save():
         else:
             name = form.name.data
             email = form.email.data
+            hotel_id = form.hotel_id.data
             pwd = bcrypt.generate_password_hash(form.password.data)
-            admin = User(name=name, password=pwd, profile='admin', email=email, password_confirmation=pwd)
+            admin = User(name=name, password=pwd, profile='admin', email=email, password_confirmation=pwd,
+                         hotel_id=hotel_id)
             db.session.add(admin)
             db.session.commit()
             flash('Cadastro realizado com sucesso!', 'success')
