@@ -28,9 +28,19 @@ def load_user(id):
 def new():
     user_id = g.user.get_id()
     form = CreateUserForm()
-    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
-    return render_template('new.html', form=form, hoteis=hoteis)
+    usuario = User.query.filter_by(id=user_id).first()
+
+    if usuario.profile not in ['admin', 'gerente']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
+    if usuario.hotel_id is None:
+        hoteis = Hotels.query.order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+    else:
+        hoteis = Hotels.query.filter_by(id=usuario.hotel_id).order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+
+    return render_template('new.html', form=form, hoteis=hoteis, usuario=usuario)
 
 
 @app.route('/save/', methods = ['GET','POST'])
@@ -38,8 +48,15 @@ def new():
 def save():
     user_id = g.user.get_id()
     form = CreateUserForm()
-    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
-    form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+    usuario = User.query.filter_by(id=user_id).first()
+
+    if usuario.hotel_id is None:
+        hoteis = Hotels.query.order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+    else:
+        hoteis = Hotels.query.filter_by(id=usuario.hotel_id).order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
@@ -49,15 +66,16 @@ def save():
             name = form.name.data
             email = form.email.data
             hotel_id = form.hotel_id.data
+            profile = form.profile.data
             pwd = bcrypt.generate_password_hash(form.password.data)
-            admin = User(name=name, password=pwd, profile='admin', email=email, password_confirmation=pwd,
+            admin = User(name=name, password=pwd, profile=profile, email=email, password_confirmation=pwd,
                          hotel_id=hotel_id)
             db.session.add(admin)
             db.session.commit()
             flash('Cadastro realizado com sucesso!', 'success')
             return redirect('/new')
 
-    return render_template('new.html', form=form)
+    return render_template('new.html', form=form, usuario=usuario)
 
 
 # @app.route('/view/<id>/')

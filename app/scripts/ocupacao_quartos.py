@@ -8,6 +8,9 @@ def adicionar_quarto(user_id):
     user = User.query.filter_by(id=user_id).first()
     form = AdicionarQuarto()
 
+    if user.profile not in ['admin', 'gerente']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     if user.hotel_id is None:
         hoteis = Hotels.query.order_by(Hotels.created_at)
         form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
@@ -45,7 +48,7 @@ def adicionar_quarto(user_id):
 def ocupacao_quartos(id, user_id):
     user = User.query.filter_by(id=user_id).first()
     hotel = Hotels.query.get_or_404(id)
-    if hotel.user_id != user_id and user.hotel_id != user_id:
+    if hotel.user_id != user_id and user.hotel_id != hotel.id:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
@@ -58,7 +61,7 @@ def deletar_quarto(id_quarto, user_id):
     quarto = Rooms.query.get_or_404(id_quarto)
     id_hotel = quarto.hotel_id
     hotel = Hotels.query.get_or_404(id_hotel)
-    if hotel.user_id != user_id and user.hotel_id != user_id:
+    if hotel.user_id != user_id and user.hotel_id != hotel.id or user.profile not in ['admin', 'gerente']:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     db.session.delete(quarto)
     db.session.commit()
@@ -72,8 +75,8 @@ def editar_quarto(quarto, user_id):
 
     user_id_room = Rooms\
         .query.filter_by(id=quarto)\
-        .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id)
-    if [i.user_id for i in user_id_room][0] != user_id and user.hotel_id != user_id:
+        .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id).add_columns(Hotels.id)
+    if [i.user_id for i in user_id_room][0] != user_id and user.hotel_id != [i for i in user_id_room][0][2]:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
 
     if user.hotel_id is None:

@@ -33,7 +33,7 @@
                                         <input name="name" type="name" id="typeName"
                                                class="form-control form-control-lg"/>
                                     </div>
-
+                                    {% if usuario.profile == 'admin' %}
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="typeHotelX">Hotel</label>
                                         <select class="form-select form-select-lg" aria-label="Default select example"
@@ -44,7 +44,30 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-
+                                    {% else %}
+                                        <div class="form-outline form-white mb-4" style="display: none;">
+                                        <label class="form-label" for="typeHotelX">Hotel</label>
+                                        <select class="form-select form-select-lg" aria-label="Default select example"
+                                                name="hotel_id" type="hotel" id="typeHotelX">
+                                            {% for hotel in hoteis %}
+                                                <option value="{{ hotel.id }}">{{ hotel.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typeProfileX">Tipo de usuário</label>
+                                        <select class="form-select form-select-lg" aria-label="Default select example"
+                                                name="profile" type="profile" id="typeProfileX">
+                                            <option selected>Selecione o tipo</option>
+                                                {% if usuario.profile == 'admin' %}
+                                                <option value="admin">Admin</option>
+                                                {% endif %}
+                                                <option value="gerente">Gerente</option>
+                                                <option value="recepcionista">Recepcionista</option>
+                                                <option value="financeiro">Financeiro</option>
+                                        </select>
+                                    </div>
                                     <div class="form-outline form-white mb-4">
                                         <label class="form-label" for="typeEmailX">E-mail</label>
                                         <input name="email" type="email" id="typeEmailX"

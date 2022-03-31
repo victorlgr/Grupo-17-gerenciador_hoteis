@@ -7,6 +7,11 @@ from app import db
 def adicionar_hotel(user_id):
     form = AdicionarHotel()
 
+    usuario = User.query.filter_by(id=user_id).first()
+
+    if usuario.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     if request.method == 'POST':
         if form.validate_on_submit():
             hotel = Hotels.query.filter_by(cnpj=form.cnpj.data).first()

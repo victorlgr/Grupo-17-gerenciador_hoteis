@@ -72,6 +72,9 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return self.id
 
+    def get_profile(self):
+        return self.profile
+
     def __repr__(self):
         return '<User %r %r>' % (self.name, self.password)
 

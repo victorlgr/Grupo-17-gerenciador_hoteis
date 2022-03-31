@@ -9,6 +9,8 @@ class CreateUserForm(FlaskForm):
 	password = PasswordField(u'Senha', validators = [InputRequired()])
 	password_confirmation = PasswordField(u'Confirmação de Senha', validators = [InputRequired(), DataRequired(), EqualTo('password')])
 	hotel_id = SelectField('Hotel', validators=[DataRequired()])
+	profile = SelectField(u'Tipo de usuário', validators=[InputRequired()],
+						  choices=['admin', 'gerente', 'recepcionista', 'financeiro'])
 	# date = DateTimeField(u'Data', format='%d/%m/%Y %H:%M')
 	#recaptcha = RecaptchaField(u'Recaptcha')
 
