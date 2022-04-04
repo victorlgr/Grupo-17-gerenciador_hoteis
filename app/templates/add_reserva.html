@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ titulo }}</h1>
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+                    {{ mensagem }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="row">
+            <div class="form-group col-6">
+                {{ form.room_id.label(class="form-label") }}
+                {{ form.room_id(class="form-control") }}
+            </div>
+            <div class="form-group col-6">
+                {{ form.guest_id.label(class="form-label") }}
+                {{ form.guest_id(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.total_guests.label(class="form-label") }}
+                {{ form.total_guests(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.check_in.label(class="form-label") }}
+                {{ form.check_in(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.check_out.label(class="form-label") }}
+                {{ form.check_out(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.payment_type.label(class="form-label") }}
+                {{ form.payment_type(class="form-control") }}
+            </div>
+
+            <!-- <div class="form-group col-6">
+                {{ form.status.label(class="form-label") }}
+                {{ form.status(class="form-control") }}
+            </div> -->
+
+
+            <div class="row">
+                <div class="form-group col-2">
+                    {{ form.submeter(class="btn btn-secondary") }}
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

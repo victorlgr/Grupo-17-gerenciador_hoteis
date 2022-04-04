@@ -147,3 +147,9 @@ def deletar_quarto_endpoint(id):
 def editar_quarto_endpoint(id):
     user_id = g.user.get_id()
     return editar_quarto(id, user_id)
+
+@app.route('/adicionar-reserva/', methods=['GET', 'POST'])
+@login_required
+def adicionar_reserva_endpoint():
+    user_id = g.user.get_id()
+    return adicionar_quarto(user_id)

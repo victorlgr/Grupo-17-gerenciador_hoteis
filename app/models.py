@@ -42,12 +42,22 @@ class Addresses(db.Model):
     complement = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=dt.now())
 
-class ModelExample(db.Model):
+class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250))
-    content = db.Column(db.Text)
-    date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('Guest.id'))
+    total_guests = db.Column(db.Integer)
+    check_in = db.Column(db.DateTime)
+    check_out = db.Column(db.DateTime)
+    payment_type = db.Column(db.String(20)) #Enum?
 
+class Guest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
+    name = db.Column(db.String(50))
+    cpf = db.Column(db.String(15))
+    birthday = db.Column(db.DateTime)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
