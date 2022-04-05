@@ -75,6 +75,9 @@ class User(db.Model, UserMixin):
     def get_profile(self):
         return self.profile
 
+    def get_hotel_id(self):
+        return self.hotel_id
+
     def __repr__(self):
         return '<User %r %r>' % (self.name, self.password)
 

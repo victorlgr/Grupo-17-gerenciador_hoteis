@@ -11,7 +11,11 @@
                         Quartos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Ocupação</a></li>
+                        {% if current_user.get_hotel_id() is not none %}
+                        <li><a class="dropdown-item"
+                               href="{{ url_for('ocupacao_quartos_endpoint', id=current_user.get_hotel_id()) }}"
+                        >Ocupação</a></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="#">Reservas</a></li>
                     </ul>
                 </li>
@@ -24,9 +28,11 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Indicadores</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ url_for('lista_hotel') }}">Hoteis</a>
-                </li>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('lista_hotel') }}">Hoteis</a>
+                    </li>
+                {% endif %}
                 {% if current_user.get_profile() in ['admin', 'gerente'] %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/new">Usuários</a>

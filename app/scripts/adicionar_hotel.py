@@ -51,6 +51,8 @@ def adicionar_hotel(user_id):
 
 def listar_hoteis(user_id):
     user = User.query.filter_by(id=user_id).first()
+    if user.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
     if user.hotel_id is None:
         hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)

@@ -15,6 +15,16 @@ class CreateUserForm(FlaskForm):
 	#recaptcha = RecaptchaField(u'Recaptcha')
 
 
+class EditarUsuario(FlaskForm):
+	name = StringField(u'Nome', validators=[InputRequired()])
+	email = StringField(u'E-mail', validators=[InputRequired()])
+	hotel_id = SelectField('Hotel', validators=[DataRequired()])
+	profile = SelectField(u'Tipo de usuário', validators=[InputRequired()],
+						  choices=['admin', 'gerente', 'recepcionista', 'financeiro'])
+
+	submeter = SubmitField('Submeter')
+
+
 class LoginForm(FlaskForm):
 	email = StringField(u'Email', validators = [InputRequired()])
 	password = PasswordField(u'Senha', validators = [InputRequired()])

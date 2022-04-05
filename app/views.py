@@ -6,6 +6,7 @@ from app.models import User, Hotels
 from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
+from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 
 
 @app.route('/')
@@ -101,7 +102,10 @@ def login():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user, remember=True)
-                return redirect(url_for("lista_hotel"))
+                if g.user.get_profile() == 'admin':
+                    return redirect(url_for("lista_hotel"))
+                else:
+                    return redirect(url_for("ocupacao_quartos_endpoint", id=user.hotel_id))
             else:
                 flash('Senha inválida. Tente novamente', 'danger')
                 return redirect('/login')
@@ -117,6 +121,26 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('pagina_inicial'))
+
+
+@app.route('/lista-usuarios/')
+@login_required
+def lista_usuarios_endpoint():
+    user_id = g.user.get_id()
+    return listar_usuarios(user_id)
+
+
+@app.route('/deletar-usuario/<int:id>')
+@login_required
+def deletar_usuario_endpoint(id):
+    return deletar_usuario(id)
+
+
+@app.route('/editar-usuario/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_usuario_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_usuario(id, user_id)
 
 
 @app.route('/adicionar-hotel/', methods=['GET', 'POST'])
