@@ -133,7 +133,8 @@ def lista_usuarios_endpoint():
 @app.route('/deletar-usuario/<int:id>')
 @login_required
 def deletar_usuario_endpoint(id):
-    return deletar_usuario(id)
+    user_id = g.user.get_id()
+    return deletar_usuario(id, user_id)
 
 
 @app.route('/editar-usuario/<int:id>', methods=['GET', 'POST'])

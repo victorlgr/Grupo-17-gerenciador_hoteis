@@ -9,6 +9,9 @@ def listar_usuarios(user_id):
     hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
     if user.hotel_id is None:
         hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
+    if user_id not in [hotel.user_id for hotel in hoteis]\
+            and user.hotel_id not in [hotel.id for hotel in hoteis] or user.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     ids_hoteis = [i.id for i in hoteis]
     nomes_hoteis = [i.name for i in hoteis]
     usuarios = User.query.filter(User.hotel_id.in_(ids_hoteis)).order_by(User.id)
@@ -20,8 +23,13 @@ def listar_usuarios(user_id):
                            )
 
 
-def deletar_usuario(id_usuario):
+def deletar_usuario(id_usuario, user_id):
     user = User.query.get_or_404(id_usuario)
+    user_deleting = User.query.get_or_404(user_id)
+    hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
+    if user_id not in [hotel.user_id for hotel in hoteis]\
+            and user.hotel_id not in [hotel.id for hotel in hoteis] or user_deleting.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     db.session.delete(user)
     db.session.commit()
     flash('Usuario deletado com sucesso!')
@@ -34,6 +42,10 @@ def editar_usuario(id_usuario, user_id):
 
     hoteis = Hotels.query.order_by(Hotels.created_at)
     form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+
+    if user_id not in [hotel.user_id for hotel in hoteis]\
+            and user.hotel_id not in [hotel.id for hotel in hoteis] or user.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
 
     if form.validate_on_submit():
         if request.method == 'POST':
