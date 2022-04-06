@@ -42,22 +42,17 @@ class Addresses(db.Model):
     complement = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=dt.now())
 
-class Reservation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
-    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
-    guest_id = db.Column(db.Integer, db.ForeignKey('Guest.id'))
-    total_guests = db.Column(db.Integer)
-    check_in = db.Column(db.DateTime)
-    check_out = db.Column(db.DateTime)
-    payment_type = db.Column(db.String(20)) #Enum?
-
 class Guest(db.Model):
+    __tablename__ = 'guests'
     id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
     address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
     name = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    phone = db.Column(db.String(20))
     cpf = db.Column(db.String(15))
     birthday = db.Column(db.DateTime)
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -68,6 +63,16 @@ class User(db.Model, UserMixin):
     profile = db.Column(db.String(15))
     email = db.Column(db.String(120), unique = True)
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
+
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    total_guests = db.Column(db.Integer)
+    check_in = db.Column(db.DateTime)
+    check_out = db.Column(db.DateTime)
+    payment_type = db.Column(db.String(20)) #Enum?
 
     def is_authenticated(self):
         return True

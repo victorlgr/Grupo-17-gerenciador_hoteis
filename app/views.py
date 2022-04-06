@@ -6,6 +6,8 @@ from app.models import User
 from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
+from app.scripts.adicionar_reserva import adicionar_reserva
+from app.scripts.adicionar_hospede import adicionar_hospede
 
 
 @app.route('/')
@@ -148,8 +150,14 @@ def editar_quarto_endpoint(id):
     user_id = g.user.get_id()
     return editar_quarto(id, user_id)
 
-@app.route('/adicionar-reserva/', methods=['GET', 'POST'])
+@app.route('/adicionar-reserva', methods=['GET', 'POST'])
 @login_required
 def adicionar_reserva_endpoint():
     user_id = g.user.get_id()
-    return adicionar_quarto(user_id)
+    return adicionar_reserva(user_id)
+
+@app.route('/adicionar-hospede', methods=['GET', 'POST'])
+@login_required
+def adicionar_hospede_endpoint():
+    user_id = g.user.get_id()
+    return adicionar_hospede(user_id)

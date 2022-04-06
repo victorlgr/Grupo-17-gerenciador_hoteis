@@ -12,7 +12,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Ocupação</a></li>
-                        <li><a class="dropdown-item" href="#">Reservas</a></li>
+                        <li><a class="dropdown-item" href="/adicionar-reserva">Reservas</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -38,6 +38,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_hotel_endpoint') }}">Hoteis</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_quarto_endpoint') }}">Quartos</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('adicionar_hospede_endpoint') }}">Hóspedes</a></li>
                     </ul>
                 </li>
             </ul>

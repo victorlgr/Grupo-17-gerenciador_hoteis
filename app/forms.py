@@ -55,3 +55,20 @@ class AdicionarReserva(FlaskForm):
 	# status = StringField('Status', validators=[DataRequired()])
 
 	submeter = SubmitField('Submeter')
+
+class AdicionarHospede(FlaskForm):
+	name = StringField(u'Nome', validators = [InputRequired()])
+	email = StringField(u'E-mail', validators = [InputRequired()])
+	phone = StringField('Telefone', validators=[DataRequired()])
+	cpf = StringField('CPF', validators=[DataRequired()])
+	birthday = StringField('Data Nascimento', validators=[DataRequired()])
+	endereco = StringField('Endereço', validators=[DataRequired()])
+	numero = StringField('Número', validators=[DataRequired()])
+	complemento = StringField('Complemento', validators=[DataRequired()])
+	bairro = StringField('Bairro', validators=[DataRequired()])
+	cidade = StringField('Cidade', validators=[DataRequired()])
+	estado = StringField('Estado', validators=[DataRequired()])
+	pais = StringField('Pais', validators=[DataRequired()])
+	cep = StringField('CEP', validators=[DataRequired()])
+
+	submeter = SubmitField('Submeter')
