@@ -1,15 +1,20 @@
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import AdicionarHotel
-from app.models import Hotels, Addresses
+from app.models import Hotels, Addresses, User
 from app import db
 
 
 def adicionar_hotel(user_id):
     form = AdicionarHotel()
 
+    usuario = User.query.filter_by(id=user_id).first()
+
+    if usuario.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+
     if request.method == 'POST':
         if form.validate_on_submit():
-            hotel = Hotels.query.filter_by(name=form.cnpj.data).first()
+            hotel = Hotels.query.filter_by(cnpj=form.cnpj.data).first()
             if hotel is None:
                 address = Addresses(street=form.endereco.data,
                                     neighborhood=form.bairro.data,
@@ -45,7 +50,12 @@ def adicionar_hotel(user_id):
 
 
 def listar_hoteis(user_id):
-    hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
+    user = User.query.filter_by(id=user_id).first()
+    if user.profile not in ['admin']:
+        return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
+    hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
+    if user.hotel_id is None:
+        hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
     return render_template('lista_hoteis_cadastrados.html',
                            hoteis=hoteis
                            )
@@ -62,10 +72,11 @@ def deletar_hotel(id, user_id):
 
 
 def editar_hotel(hotel, user_id):
+    user = User.query.filter_by(id=user_id).first()
     hotel_data = Hotels.query.filter_by(id=hotel).first()
     address_data = Addresses.query.filter_by(id=hotel_data.address_id).first()
 
-    if hotel_data.user_id != user_id:
+    if hotel_data.user_id != user_id and user.hotel_id != user_id:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
 
     form = AdicionarHotel()

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <h1>{{ titulo }}</h1>
+    <br>
+
+    {% for mensagem in get_flashed_messages() %}
+        {% if mensagem == 'Hotel cadastrado com sucesso!' %}
+            {% set categoria = 'success' %}
+        {% else %}
+            {% set categoria = 'danger' %}
+        {% endif %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="row">
+            <div class="form-group col-6">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.profile.label(class="form-label") }}
+                {{ form.profile(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.hotel_id.label(class="form-label") }}
+                {{ form.hotel_id(class="form-control") }}
+            </div>
+
+            <br><br><br><br>
+            <div class="row">
+                <div class="form-group col-2">
+                    {{ form.submeter(class="btn btn-secondary") }}
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

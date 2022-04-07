@@ -1,62 +1,103 @@
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{%block title%}Novo!{%endblock%}
+{% block title %}Novo!{% endblock %}
 
-{%block content%}
-	<section class="vh-100 gradient-custom">
-		<div class="container py-5 h-100">
-			<div class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-					<div class="card bg-dark text-white" style="border-radius: 1rem;">
-						<div class="card-body p-5 text-center">
+{% block content %}
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
 
-							{% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
-									<div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
-											{{ mensagem }}
-											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-									</div>
-							{% endfor %}
-	
-							<div class="md-5 mt-md-4 pb-5">
-	
-								<h4 class="fw-bold mb-2 text-uppercase">Cadastro de Usuário</h4>
-								<p class="text-white-50 mb-5">Por favor preencha os dados necessários.</p>
-	
-								<form action="/save/" method="post" class="form form-horizontal" name="signupform">
-									{{ wtf.form_errors(form,"only") }}
-									{{ form.csrf_token }}
+                            {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+                                <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+                                    {{ mensagem }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
 
-									<div class="form-outline form-white mb-4">
-										<label class="form-label" for="typeEmailX">Nome</label>
-										<input name="name" type="name" id="typeName" class="form-control form-control-lg" />
-									</div>
+                            <div class="md-5 mt-md-4 pb-5">
 
-									<div class="form-outline form-white mb-4">
-										<label class="form-label" for="typeEmailX">E-mail</label>
-										<input name="email" type="email" id="typeEmailX" class="form-control form-control-lg" />
-									</div>
-	
-									<div class="form-outline form-white mb-4">
-										<label class="form-label" for="typePasswordX">Senha</label>
-										<input name="password" type="password" id="typePasswordX" class="form-control form-control-lg" />
-									</div>
+                                <h4 class="fw-bold mb-2 text-uppercase">Cadastro de Usuário</h4>
+                                <p class="text-white-50 mb-5">Por favor preencha os dados necessários.</p>
 
-									<div class="form-outline form-white mb-4">
-										<label class="form-label" for="typePasswordX">Confirmação de senha</label>
-										<input name="password_confirmation" type="password" id="typePasswordConfirmationX" class="form-control form-control-lg" />
-									</div>
-	
-									<button name="action_save" class="btn btn-outline-light btn-lg px-5 btn-warning" type="submit">Cadastrar</button>
-								</form>
+                                <form action="/save/" method="post" class="form form-horizontal" name="signupform">
+                                    {{ wtf.form_errors(form,"only") }}
+                                    {{ form.csrf_token }}
 
-							</div>
-	
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typeEmailX">Nome</label>
+                                        <input name="name" type="name" id="typeName"
+                                               class="form-control form-control-lg"/>
+                                    </div>
+                                    {% if usuario.profile == 'admin' %}
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typeHotelX">Hotel</label>
+                                        <select class="form-select form-select-lg" aria-label="Default select example"
+                                                name="hotel_id" type="hotel" id="typeHotelX">
+                                            <option selected>Selecione o hotel</option>
+                                            {% for hotel in hoteis %}
+                                                <option value="{{ hotel.id }}">{{ hotel.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% else %}
+                                        <div class="form-outline form-white mb-4" style="display: none;">
+                                        <label class="form-label" for="typeHotelX">Hotel</label>
+                                        <select class="form-select form-select-lg" aria-label="Default select example"
+                                                name="hotel_id" type="hotel" id="typeHotelX">
+                                            {% for hotel in hoteis %}
+                                                <option value="{{ hotel.id }}">{{ hotel.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typeProfileX">Tipo de usuário</label>
+                                        <select class="form-select form-select-lg" aria-label="Default select example"
+                                                name="profile" type="profile" id="typeProfileX">
+                                            <option selected>Selecione o tipo</option>
+                                                {% if usuario.profile == 'admin' %}
+                                                <option value="admin">Admin</option>
+                                                {% endif %}
+                                                <option value="gerente">Gerente</option>
+                                                <option value="recepcionista">Recepcionista</option>
+                                                <option value="financeiro">Financeiro</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typeEmailX">E-mail</label>
+                                        <input name="email" type="email" id="typeEmailX"
+                                               class="form-control form-control-lg"/>
+                                    </div>
 
-{%endblock%}
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typePasswordX">Senha</label>
+                                        <input name="password" type="password" id="typePasswordX"
+                                               class="form-control form-control-lg"/>
+                                    </div>
+
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="typePasswordX">Confirmação de senha</label>
+                                        <input name="password_confirmation" type="password"
+                                               id="typePasswordConfirmationX" class="form-control form-control-lg"/>
+                                    </div>
+
+                                    <button name="action_save" class="btn btn-outline-light btn-lg px-5 btn-warning"
+                                            type="submit">Cadastrar
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

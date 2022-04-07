@@ -8,8 +8,21 @@ class CreateUserForm(FlaskForm):
 	email = StringField(u'E-mail', validators = [InputRequired()])
 	password = PasswordField(u'Senha', validators = [InputRequired()])
 	password_confirmation = PasswordField(u'Confirmação de Senha', validators = [InputRequired(), DataRequired(), EqualTo('password')])
+	hotel_id = SelectField('Hotel', validators=[DataRequired()])
+	profile = SelectField(u'Tipo de usuário', validators=[InputRequired()],
+						  choices=['admin', 'gerente', 'recepcionista', 'financeiro'])
 	# date = DateTimeField(u'Data', format='%d/%m/%Y %H:%M')
 	#recaptcha = RecaptchaField(u'Recaptcha')
+
+
+class EditarUsuario(FlaskForm):
+	name = StringField(u'Nome', validators=[InputRequired()])
+	email = StringField(u'E-mail', validators=[InputRequired()])
+	hotel_id = SelectField('Hotel', validators=[DataRequired()])
+	profile = SelectField(u'Tipo de usuário', validators=[InputRequired()],
+						  choices=['admin', 'gerente', 'recepcionista', 'financeiro'])
+
+	submeter = SubmitField('Submeter')
 
 
 class LoginForm(FlaskForm):
