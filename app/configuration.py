@@ -8,6 +8,7 @@ class Config(object):
 	SECRET_KEY = "MINHACHAVESECRETA"
 	CSRF_ENABLED = True
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	SQLALCHEMY_ECHO=True
 
 	#Get your reCaptche key on: https://www.google.com/recaptcha/admin/create
 	#RECAPTCHA_PUBLIC_KEY = "6LffFNwSAAAAAFcWVy__EnOCsNZcG2fVHFjTBvRP"

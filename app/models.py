@@ -64,16 +64,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique = True)
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
-class Reservation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
-    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
-    total_guests = db.Column(db.Integer)
-    check_in = db.Column(db.DateTime)
-    check_out = db.Column(db.DateTime)
-    payment_type = db.Column(db.String(20)) #Enum?
-
     def is_authenticated(self):
         return True
 
@@ -95,3 +85,13 @@ class Reservation(db.Model):
         self.password_confirmation = password_confirmation
         self.profile = profile
         self.email = email
+
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    total_guests = db.Column(db.Integer)
+    check_in = db.Column(db.DateTime)
+    check_out = db.Column(db.DateTime)
+    payment_type = db.Column(db.String(20)) #Enum?

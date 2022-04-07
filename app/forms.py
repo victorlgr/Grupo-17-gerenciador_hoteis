@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, DateTimeField, PasswordField, SubmitField, SelectField, IntegerField
+from wtforms import StringField, TextAreaField, DateField, DateTimeLocalField, PasswordField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired, DataRequired, EqualTo
 
 
@@ -47,11 +47,11 @@ class AdicionarQuarto(FlaskForm):
 
 class AdicionarReserva(FlaskForm):
 	room_id = SelectField('Quarto', validators=[DataRequired()])
-	guest_id = StringField('Hóspede', validators=[DataRequired()])
+	guest_id = SelectField('Hóspede', validators=[DataRequired()])
 	total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
-	check_in = DateTimeField('Data Entrada', validators=[DataRequired()])
-	check_out = DateTimeField('Data Saída', validators=[DataRequired()])
-	payment_type = StringField('Tipo de pagamento', validators=[DataRequired()])
+	check_in = DateField('Data Entrada', validators=[DataRequired()])
+	check_out = DateField('Data Saída', validators=[DataRequired()])
+	payment_type = SelectField('Tipo de pagamento', validators=[DataRequired()], choices=[("credit_card", "Cartão de crédito"), ("pix", "Pix")])
 	# status = StringField('Status', validators=[DataRequired()])
 
 	submeter = SubmitField('Submeter')
