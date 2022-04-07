@@ -51,12 +51,13 @@ class ModelExample(db.Model):
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500))
     password = db.Column(db.String(500))
     password_confirmation = db.Column(db.String(500))
     profile = db.Column(db.String(15))
-    email = db.Column(db.String(120), unique = True)
+    email = db.Column(db.String(120), unique=True)
+    hotel_id = db.Column(db.Integer)
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
     def is_authenticated(self):
@@ -71,12 +72,19 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return self.id
 
+    def get_profile(self):
+        return self.profile
+
+    def get_hotel_id(self):
+        return self.hotel_id
+
     def __repr__(self):
         return '<User %r %r>' % (self.name, self.password)
 
-    def __init__(self, name, password, password_confirmation, profile, email):
+    def __init__(self, name, password, password_confirmation, profile, email, hotel_id):
         self.name = name
         self.password = password
         self.password_confirmation = password_confirmation
         self.profile = profile
         self.email = email
+        self.hotel_id = hotel_id
