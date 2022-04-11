@@ -1,11 +1,12 @@
 from flask import render_template, request, redirect, url_for, flash
-from app.forms import AdicionarHospede
+from app.forms import AdicionarHospede, VerificarDisponibilidade
 from app.models import Hotels, Addresses, Guest
 from datetime import datetime
 from app import db
 
 
 def adicionar_hospede(user_id):
+    form_reserva = VerificarDisponibilidade()
     form = AdicionarHospede()
     hotel = Hotels.query.order_by(Hotels.created_at).first() #TODO need refact to use the right hotel
 
@@ -42,9 +43,9 @@ def adicionar_hospede(user_id):
             else:
                 flash('Hospede já existe...')
         flash('Validação falhou!')        
-        return render_template('add_hospede.html', form=form, titulo='Adicionar Hospede')
+        return render_template('add_hospede.html', form=form, titulo='Adicionar Hospede', form_reserva=form_reserva)
 
     return render_template('add_hospede.html',
                            form=form,
-                           titulo='Adicionar Hospede'
+                           titulo='Adicionar Hospede', form_reserva=form_reserva
                            )

@@ -6,7 +6,7 @@ from app.models import User, Hotels
 from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
-from app.scripts.adicionar_reserva import adicionar_reserva
+from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, verificar_disponibilidade
 from app.scripts.adicionar_hospede import adicionar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 
@@ -212,3 +212,15 @@ def adicionar_reserva_endpoint():
 def adicionar_hospede_endpoint():
     user_id = g.user.get_id()
     return adicionar_hospede(user_id)
+
+@app.route('/lista-reservas/')
+@login_required
+def lista_reservas():
+    user_id = g.user.get_id()
+    return listar_reservas(user_id)
+
+@app.route('/verificar-disponibilidade/', methods=['POST'])
+@login_required
+def verificar_disponibilidade():
+    user_id = g.user.get_id()
+    return verificar_disponibilidade(user_id)

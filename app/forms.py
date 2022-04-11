@@ -67,7 +67,7 @@ class AdicionarReserva(FlaskForm):
 	payment_type = SelectField('Tipo de pagamento', validators=[DataRequired()], choices=[("credit_card", "Cartão de crédito"), ("pix", "Pix")])
 	# status = StringField('Status', validators=[DataRequired()])
 
-	submeter = SubmitField('Submeter')
+	submeter = SubmitField('Salvar')
 
 class AdicionarHospede(FlaskForm):
 	name = StringField(u'Nome', validators = [InputRequired()])
@@ -84,4 +84,11 @@ class AdicionarHospede(FlaskForm):
 	pais = StringField('Pais', validators=[DataRequired()])
 	cep = StringField('CEP', validators=[DataRequired()])
 
-	submeter = SubmitField('Submeter')
+	submeter = SubmitField('Salvar')
+
+class VerificarDisponibilidade(FlaskForm):
+	total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
+	check_in = DateField('Data Entrada', validators=[DataRequired()])
+	check_out = DateField('Data Saída', validators=[DataRequired()])
+
+	submeter = SubmitField('Reservar')

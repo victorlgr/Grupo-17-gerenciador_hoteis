@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{ titulo }}</h1>
+    <h1 class="mt-4">{{ titulo }}</h1>
 
     {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
             <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
@@ -45,7 +45,7 @@
 
 
             <div class="row">
-                <div class="form-group col-2">
+                <div class="form-group col-2 mt-4">
                     {{ form.submeter(class="btn btn-secondary") }}
                 </div>
             </div>
