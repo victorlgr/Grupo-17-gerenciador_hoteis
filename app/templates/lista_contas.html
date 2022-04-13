@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h1 style="display: inline-block;">Financeiro</h1>
+        <a href="{{ url_for('adicionar_conta_endpoint') }}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    style="float: right">Adicionar conta
+            </button>
+        </a>
+        <br>
+    </div>
+
+
+    {% for mensagem in get_flashed_messages() %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <table id="tabela" class="table table-hover">
+        <thead>
+        <tr>
+            {% if current_user.get_profile() in ['admin'] %}
+                <th>Hotel</th>
+            {% endif %}
+            <th>Tipo</th>
+            <th>Hóspede</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Data pgto</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for conta in contas %}
+            <tr>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <td>{{ hotel_choices[conta.hotel_id] }}</td>
+                {% endif %}
+                <td>{{ conta.tipo }}</td>
+                <td>{{ guest_choices[conta.guest_id] }}</td>
+                <td>{{ conta.descricao }}</td>
+                <td>{{ conta.valor }}</td>
+                <td>{{ conta.data_cadastro }}</td>
+                <td>{{ conta.data_pgto }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabela').DataTable();
+        });
+    </script>
+{% endblock %}

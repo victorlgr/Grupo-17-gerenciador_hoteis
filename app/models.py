@@ -42,6 +42,7 @@ class Addresses(db.Model):
     complement = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=dt.now())
 
+
 class Guest(db.Model):
     __tablename__ = 'guests'
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +64,7 @@ class User(db.Model, UserMixin):
     profile = db.Column(db.String(15))
     email = db.Column(db.String(120), unique=True)
     hotel_id = db.Column(db.Integer)
+
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
     def is_authenticated(self):
@@ -94,6 +96,7 @@ class User(db.Model, UserMixin):
         self.email = email
         self.hotel_id = hotel_id
 
+
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -102,4 +105,16 @@ class Reservation(db.Model):
     total_guests = db.Column(db.Integer)
     check_in = db.Column(db.DateTime)
     check_out = db.Column(db.DateTime)
-    payment_type = db.Column(db.String(20)) #Enum?
+    payment_type = db.Column(db.String(20))  # Enum?
+
+
+class Account(db.Model):
+    __tablename__ = 'Account'
+    id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.String(20))
+    hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    descricao = db.Column(db.String(30))
+    valor = db.Column(db.Float)
+    data_cadastro = db.Column(db.Date, default=dt.now())
+    data_pgto = db.Column(db.Date)

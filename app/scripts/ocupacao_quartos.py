@@ -73,8 +73,8 @@ def editar_quarto(quarto, user_id):
     form = AdicionarQuarto()
     user = User.query.filter_by(id=user_id).first()
 
-    user_id_room = Rooms\
-        .query.filter_by(id=quarto)\
+    user_id_room = Rooms \
+        .query.filter_by(id=quarto) \
         .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id).add_columns(Hotels.id)
     if [i.user_id for i in user_id_room][0] != user_id and user.hotel_id != [i for i in user_id_room][0][2]:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'

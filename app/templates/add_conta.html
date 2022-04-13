@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <h1>{{ titulo }}</h1>
+    <br>
+
+    {% for mensagem in get_flashed_messages() %}
+        {% if mensagem == 'Conta cadastrada com sucesso!' %}
+            {% set categoria = 'success' %}
+        {% else %}
+            {% set categoria = 'danger' %}
+        {% endif %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="row">
+            {% if current_user.get_profile() in ['admin'] %}
+                <div class="form-group col-6">
+                    {{ form.hotel_id.label(class="form-label") }}
+                    {{ form.hotel_id(class="form-control") }}
+                </div>
+            {% endif %}
+
+            <div class="form-group col-6">
+                {{ form.guest_id.label(class="form-label") }}
+                {{ form.guest_id(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.tipo.label(class="form-label") }}
+                {{ form.tipo(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.descricao.label(class="form-label") }}
+                {{ form.descricao(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.valor.label(class="form-label") }}
+                {{ form.valor(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6">
+                {{ form.data_pagamento.label(class="form-label") }}
+                {{ form.data_pagamento(class="form-control") }}
+            </div>
+
+            <br><br><br><br>
+            <div class="row">
+                <div class="form-group col-2">
+                    {{ form.submeter(class="btn btn-secondary") }}
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
