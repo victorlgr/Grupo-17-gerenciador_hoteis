@@ -40,7 +40,7 @@ def new():
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
 
     if usuario.hotel_id is None:
-        hoteis = Hotels.query.order_by(Hotels.created_at)
+        hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
         form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
     else:
         hoteis = Hotels.query.filter_by(id=usuario.hotel_id).order_by(Hotels.created_at)
