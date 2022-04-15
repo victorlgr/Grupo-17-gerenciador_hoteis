@@ -13,13 +13,12 @@ def listar_usuarios(user_id):
             and user.hotel_id not in [hotel.id for hotel in hoteis] or user.profile not in ['admin']:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     ids_hoteis = [i.id for i in hoteis]
-    nomes_hoteis = [i.name for i in hoteis]
+    nomes_hoteis = [(i.id, i.name) for i in hoteis]
     usuarios = User.query.filter(User.hotel_id.in_(ids_hoteis)).order_by(User.id)
 
     return render_template('lista_usuarios.html',
                            usuarios=usuarios,
-                           nomes_hoteis=nomes_hoteis,
-                           zip=zip
+                           nomes_hoteis=nomes_hoteis
                            )
 
 
