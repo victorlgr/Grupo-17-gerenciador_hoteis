@@ -1,6 +1,6 @@
 from waitress import serve
 import logging
-import app
+from app import app
 
 logging.basicConfig(
     filename='error.log',
@@ -8,4 +8,4 @@ logging.basicConfig(
     level=logging.DEBUG,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
-serve(app.app, host='127.0.0.1', port='80')
+serve(app, host='0.0.0.0', port='80')
