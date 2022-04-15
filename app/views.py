@@ -9,7 +9,7 @@ from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, edi
 from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, verificar_disponibilidade
 from app.scripts.adicionar_hospede import adicionar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
-from app.scripts.financeiro import adicionar_conta, listar_contas
+from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
 
 
 @app.route('/')
@@ -253,3 +253,17 @@ def adicionar_conta_endpoint():
 def listar_conta_endpoint():
     user_id = g.user.get_id()
     return listar_contas(user_id)
+
+
+@app.route('/editar-conta/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_conta_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_conta(id, user_id)
+
+
+@app.route('/deletar-conta/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_conta_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_conta(id, user_id)

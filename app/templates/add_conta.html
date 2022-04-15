@@ -5,7 +5,7 @@
     <br>
 
     {% for mensagem in get_flashed_messages() %}
-        {% if mensagem == 'Conta cadastrada com sucesso!' %}
+        {% if mensagem in ['Conta cadastrada com sucesso!', 'Conta editada com sucesso!'] %}
             {% set categoria = 'success' %}
         {% else %}
             {% set categoria = 'danger' %}

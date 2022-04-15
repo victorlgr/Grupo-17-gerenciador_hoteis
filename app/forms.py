@@ -108,6 +108,6 @@ class Contas(FlaskForm):
     tipo = SelectField('Tipo', choices=['Contas a pagar', 'Contas a receber'], validators=[DataRequired()])
     descricao = StringField('Descrição', validators=[DataRequired()])
     valor = StringField('Valor', validators=[DataRequired()])
-    data_pagamento = DateField('Data pagamento', validators=[DataRequired()])
+    data_pagamento = DateField('Data pagamento')
 
     submeter = SubmitField('Submeter')

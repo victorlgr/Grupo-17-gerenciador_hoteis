@@ -11,8 +11,8 @@
     </div>
 
 
-    {% for mensagem in get_flashed_messages() %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
             {{ mensagem }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -30,6 +30,8 @@
             <th>Valor</th>
             <th>Data</th>
             <th>Data pgto</th>
+            <th>Editar conta</th>
+            <th>Deletar conta</th>
         </tr>
         </thead>
         <tbody>
@@ -44,8 +46,39 @@
                 <td>{{ conta.valor }}</td>
                 <td>{{ conta.data_cadastro }}</td>
                 <td>{{ conta.data_pgto }}</td>
+                <td><a href="{{ url_for('editar_conta_endpoint', id=conta.id) }}">Link</a></td>
+            <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#Modal_{{ conta.id }}"
+                            value="{{ conta.id }}" id="user_{{ conta.id }}">
+                        Deletar
+                    </button>
+                </td>
             </tr>
             </tbody>
+            <div class="modal fade" id="Modal_{{ conta.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar a conta <b>{{ guest_choices[conta.guest_id] }} - {{ conta.descricao }}
+                            - {{ conta.valor }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_conta_endpoint', id=conta.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </table>
 
