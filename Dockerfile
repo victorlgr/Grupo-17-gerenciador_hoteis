@@ -1,22 +1,21 @@
 # Set base image (host OS)
 FROM python:3.8-alpine
 
-# By default, listen on port 5000
-EXPOSE 5000/tcp
+RUN apk update && apk add gcc libc-dev make git libffi-dev openssl-dev python3-dev libxml2-dev libxslt-dev
+
+# By default, listen on port 80
+EXPOSE 80
 
 # Set the working directory in the container
 WORKDIR /.
 
 # Copy the dependencies file to the working directory
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 
 # Install any dependencies
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
-# COPY waitress_server.py .
-
-COPY . /
+COPY . .
 
 # Specify the command to run on container start
-CMD [ "python", "./waitress_server.py" ]
+CMD [ "python", "waitress_server.py" ]
