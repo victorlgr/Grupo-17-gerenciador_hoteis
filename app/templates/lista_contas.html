@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h1 style="display: inline-block;">Financeiro</h1>
+        <a href="{{ url_for('adicionar_conta_endpoint') }}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    style="float: right">Adicionar conta
+            </button>
+        </a>
+        <br>
+    </div>
+
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <table id="tabela" class="table table-hover">
+        <thead>
+        <tr>
+            {% if current_user.get_profile() in ['admin'] %}
+                <th>Hotel</th>
+            {% endif %}
+            <th>Tipo</th>
+            <th>Hóspede</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Data pgto</th>
+            <th>Editar conta</th>
+            <th>Deletar conta</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for conta in contas %}
+            <tr>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <td>{{ hotel_choices[conta.hotel_id] }}</td>
+                {% endif %}
+                <td>{{ conta.tipo }}</td>
+                <td>{{ guest_choices[conta.guest_id] }}</td>
+                <td>{{ conta.descricao }}</td>
+                <td>{{ conta.valor }}</td>
+                <td>{{ conta.data_cadastro }}</td>
+                <td>{{ conta.data_pgto }}</td>
+                <td><a href="{{ url_for('editar_conta_endpoint', id=conta.id) }}">Link</a></td>
+            <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#Modal_{{ conta.id }}"
+                            value="{{ conta.id }}" id="user_{{ conta.id }}">
+                        Deletar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <div class="modal fade" id="Modal_{{ conta.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar a conta <b>{{ guest_choices[conta.guest_id] }} - {{ conta.descricao }}
+                            - {{ conta.valor }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_conta_endpoint', id=conta.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabela').DataTable();
+        });
+    </script>
+{% endblock %}

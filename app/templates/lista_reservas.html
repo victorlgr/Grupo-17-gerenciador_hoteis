@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="mt-4">
+        <h1>Próximas reservas</h1>
+    <br>
+    </div>
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+                    {{ mensagem }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
+
+    <table class="table table-hover">
+
+        <tr>
+            <th>ID</th>
+            <th>Hóspede</th>
+            <th>Data entrada</th>
+            <th>Data saída</th>
+            <th>Quarto</th>
+            <th>N˚ de hóspedes</th>
+            <th>Pagamento</th>
+        </tr>
+        {% for reserva, guest, room in reservas: %}
+            <tr>
+                <td>{{ reserva.id }}</td>
+                <td>{{ guest.name }}</td>
+                <td>{{ reserva.check_in.strftime("%d/%m/%Y") }}</td>
+                <td>{{ reserva.check_out.strftime("%d/%m/%Y") }}</td>
+                <td>{{ room.number }}</td>
+                <td>{{ reserva.total_guests }}</td>
+                <td>{{ reserva.payment_type }}</td>
+                <td><a href="{{ url_for('editar_hotel_endpoint', id=reserva.id) }}">Alterar</a></td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#Modal_{{ reserva.id }}"
+                            value="{{ reserva.id }}" id="hotel_{{ reserva.id }}">
+                        Cancelar
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" id="Modal_{{ reserva.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar hotel</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar o hotel <b>{{ reserva.id }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_hotel_endpoint', id=reserva.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </table>
+
+{% endblock %}
