@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <h1>Quartos disponiveis</h1>
+    <br>
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+                    {{ mensagem }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    {% endfor %}
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for quarto in quartos %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2>Quarto {{ quarto.number }}</h2>
+                        <p>Tipo: {{ quarto.kind }}</p>
+                        <p>Preço: {{ quarto.price }}</p>
+                        <p>Limite de Hóspedes: {{ quarto.guest_limit }}</p>
+                        <p>Status: {{ quarto.status }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{{ url_for('adicionar_reserva_endpoint', quarto_id=quarto.id, check_in=form_reserva.check_in.data, check_out=form_reserva.check_out.data, total_guests=form_reserva.total_guests.data) }}">
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                            value="{{ quarto.id }}">
+                                        Reservar
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="Modal_{{ quarto.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar quarto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar o quarto <b>{{ quarto.number }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_quarto_endpoint', id=quarto.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

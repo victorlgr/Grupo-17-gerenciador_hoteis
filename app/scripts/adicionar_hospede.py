@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import AdicionarHospede, VerificarDisponibilidade
-from app.models import Hotels, Addresses, Guest
+from app.models import Hotels, Addresses, Guest, User
 from datetime import datetime
 from app import db
 
@@ -8,7 +8,8 @@ from app import db
 def adicionar_hospede(user_id):
     form_reserva = VerificarDisponibilidade()
     form = AdicionarHospede()
-    hotel = Hotels.query.order_by(Hotels.created_at).first() #TODO need refact to use the right hotel
+    user = User.query.filter_by(id=user_id).first()
+    hotel = Hotels.query.filter_by(id=user.hotel_id).first()
 
     if request.method == 'POST':
         if form.validate_on_submit():

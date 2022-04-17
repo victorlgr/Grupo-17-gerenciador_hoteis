@@ -1,3 +1,4 @@
+import enum
 from app import db
 from flask_login import UserMixin
 from datetime import datetime as dt
@@ -94,6 +95,10 @@ class User(db.Model, UserMixin):
         self.email = email
         self.hotel_id = hotel_id
 
+class Status(enum.Enum):
+    ATIVO = "ativo"
+    CANCELADO = "cancelado"
+
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -103,3 +108,4 @@ class Reservation(db.Model):
     check_in = db.Column(db.DateTime)
     check_out = db.Column(db.DateTime)
     payment_type = db.Column(db.String(20)) #Enum?
+    status = db.Column(db.Enum(Status), default=Status.ATIVO)

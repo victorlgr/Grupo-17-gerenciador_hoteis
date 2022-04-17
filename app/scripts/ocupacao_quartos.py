@@ -1,10 +1,11 @@
 from flask import render_template, request, redirect, url_for, flash
-from app.forms import AdicionarQuarto
+from app.forms import AdicionarQuarto, VerificarDisponibilidade
 from app.models import Rooms, Hotels, User
 from app import db
 
 
 def adicionar_quarto(user_id):
+    form_reserva = VerificarDisponibilidade()
     user = User.query.filter_by(id=user_id).first()
     form = AdicionarQuarto()
 
@@ -41,18 +42,20 @@ def adicionar_quarto(user_id):
                            form=form,
                            hoteis=hoteis,
                            user=user,
-                           titulo='Adicionar quarto'
+                           titulo='Adicionar quarto',
+                           form_reserva=form_reserva
                            )
 
 
 def ocupacao_quartos(id, user_id):
+    form_reserva = VerificarDisponibilidade()
     user = User.query.filter_by(id=user_id).first()
     hotel = Hotels.query.get_or_404(id)
     if hotel.user_id != user_id and user.hotel_id != hotel.id:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
     return render_template('ocupacao_quartos.html',
-                           quartos=quartos
+                           quartos=quartos, form_reserva=form_reserva
                            )
 
 
@@ -70,6 +73,7 @@ def deletar_quarto(id_quarto, user_id):
 
 
 def editar_quarto(quarto, user_id):
+    form_reserva = VerificarDisponibilidade()
     form = AdicionarQuarto()
     user = User.query.filter_by(id=user_id).first()
 
@@ -113,5 +117,6 @@ def editar_quarto(quarto, user_id):
     return render_template('adicionar_quartos.html',
                            form=form,
                            user=user,
-                           titulo='Editar quarto'
+                           titulo='Editar quarto',
+                           form_reserva=form_reserva
                            )

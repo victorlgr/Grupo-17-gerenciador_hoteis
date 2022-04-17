@@ -33,7 +33,7 @@
                 <td>{{ room.number }}</td>
                 <td>{{ reserva.total_guests }}</td>
                 <td>{{ reserva.payment_type }}</td>
-                <td><a href="{{ url_for('editar_hotel_endpoint', id=reserva.id) }}">Alterar</a></td>
+                <!-- <td><a href="{{ url_for('alterar_reserva_endpoint', id=reserva.id) }}">Alterar</a></td> -->
                 <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#Modal_{{ reserva.id }}"
@@ -47,17 +47,17 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Deletar hotel</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Cancelar reserva</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Tem certeza que deseja deletar o hotel <b>{{ reserva.id }}</b>?
+                            Tem certeza que deseja cancelar a reserva <b>{{ reserva.id }}</b>?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="{{ url_for('deletar_hotel_endpoint', id=reserva.id) }}">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                            <a href="{{ url_for('cancelar_reserva_endpoint', id=reserva.id) }}">
                                 <button type="button" class="btn btn-danger"
-                                >Deletar
+                                >Sim
                                 </button>
                             </a>
                         </div>
