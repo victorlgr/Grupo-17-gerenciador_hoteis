@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from datetime import datetime as dt
+import enum
 
 
 class Hotels(db.Model):
