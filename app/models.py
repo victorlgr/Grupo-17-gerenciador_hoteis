@@ -1,3 +1,4 @@
+import enum
 from app import db
 from flask_login import UserMixin
 from datetime import datetime as dt
@@ -42,11 +43,16 @@ class Addresses(db.Model):
     complement = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, default=dt.now())
 
-class ModelExample(db.Model):
+class Guest(db.Model):
+    __tablename__ = 'guests'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250))
-    content = db.Column(db.Text)
-    date = db.Column(db.DateTime)
+    hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
+    address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'))
+    name = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    phone = db.Column(db.String(20))
+    cpf = db.Column(db.String(15))
+    birthday = db.Column(db.DateTime)
 
 
 class User(db.Model, UserMixin):
@@ -88,3 +94,18 @@ class User(db.Model, UserMixin):
         self.profile = profile
         self.email = email
         self.hotel_id = hotel_id
+
+class Status(enum.Enum):
+    ATIVO = "ativo"
+    CANCELADO = "cancelado"
+
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('Rooms.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    total_guests = db.Column(db.Integer)
+    check_in = db.Column(db.DateTime)
+    check_out = db.Column(db.DateTime)
+    payment_type = db.Column(db.String(20)) #Enum?
+    status = db.Column(db.Enum(Status), default=Status.ATIVO)

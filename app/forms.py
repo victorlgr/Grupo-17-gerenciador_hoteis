@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, DateTimeField, PasswordField, SubmitField, SelectField
+from wtforms import StringField, TextAreaField, DateField, DateTimeLocalField, PasswordField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired, DataRequired, EqualTo
 
 
@@ -57,3 +57,38 @@ class AdicionarQuarto(FlaskForm):
 	status = StringField('Status', validators=[DataRequired()])
 
 	submeter = SubmitField('Submeter')
+
+class AdicionarReserva(FlaskForm):
+	room_id = SelectField('Quarto', validators=[DataRequired()])
+	guest_id = SelectField('Hóspede', validators=[DataRequired()])
+	total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
+	check_in = DateField('Data Entrada', validators=[DataRequired()])
+	check_out = DateField('Data Saída', validators=[DataRequired()])
+	payment_type = SelectField('Tipo de pagamento', validators=[DataRequired()], choices=[("credit_card", "Cartão de crédito"), ("pix", "Pix")])
+	# status = StringField('Status', validators=[DataRequired()])
+
+	submeter = SubmitField('Salvar')
+
+class AdicionarHospede(FlaskForm):
+	name = StringField(u'Nome', validators = [InputRequired()])
+	email = StringField(u'E-mail', validators = [InputRequired()])
+	phone = StringField('Telefone', validators=[DataRequired()])
+	cpf = StringField('CPF', validators=[DataRequired()])
+	birthday = StringField('Data Nascimento', validators=[DataRequired()])
+	endereco = StringField('Endereço', validators=[DataRequired()])
+	numero = StringField('Número', validators=[DataRequired()])
+	complemento = StringField('Complemento', validators=[DataRequired()])
+	bairro = StringField('Bairro', validators=[DataRequired()])
+	cidade = StringField('Cidade', validators=[DataRequired()])
+	estado = StringField('Estado', validators=[DataRequired()])
+	pais = StringField('Pais', validators=[DataRequired()])
+	cep = StringField('CEP', validators=[DataRequired()])
+
+	submeter = SubmitField('Salvar')
+
+class VerificarDisponibilidade(FlaskForm):
+	total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
+	check_in = DateField('Data Entrada', validators=[DataRequired()])
+	check_out = DateField('Data Saída', validators=[DataRequired()])
+
+	submeter = SubmitField('Reservar')

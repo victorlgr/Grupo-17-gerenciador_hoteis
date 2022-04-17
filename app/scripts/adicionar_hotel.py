@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from app.forms import AdicionarHotel
+from app.forms import AdicionarHotel, VerificarDisponibilidade
 from app.models import Hotels, Addresses, User
 from app import db
 
@@ -72,6 +72,7 @@ def deletar_hotel(id, user_id):
 
 
 def editar_hotel(hotel, user_id):
+    form_reserva = VerificarDisponibilidade()
     user = User.query.filter_by(id=user_id).first()
     hotel_data = Hotels.query.filter_by(id=hotel).first()
     address_data = Addresses.query.filter_by(id=hotel_data.address_id).first()
@@ -115,5 +116,6 @@ def editar_hotel(hotel, user_id):
 
     return render_template('formulario_hotel.html',
                            form=form,
-                           titulo='Editar hotel'
+                           titulo='Editar hotel',
+                           form_reserva = form_reserva
                            )

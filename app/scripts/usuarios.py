@@ -1,10 +1,11 @@
 from flask import render_template, redirect, flash, request
 from app import db
 from app.models import Hotels, User
-from app.forms import EditarUsuario
+from app.forms import EditarUsuario, VerificarDisponibilidade
 
 
 def listar_usuarios(user_id):
+    form_reserva = VerificarDisponibilidade()
     user = User.query.filter_by(id=user_id).first()
     hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
     if user.hotel_id is None:
@@ -13,12 +14,14 @@ def listar_usuarios(user_id):
             and user.hotel_id not in [hotel.id for hotel in hoteis] or user.profile not in ['admin']:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     ids_hoteis = [i.id for i in hoteis]
-    nomes_hoteis = [(i.id, i.name) for i in hoteis]
+    nomes_hoteis = [i.name for i in hoteis]
     usuarios = User.query.filter(User.hotel_id.in_(ids_hoteis)).order_by(User.id)
 
     return render_template('lista_usuarios.html',
                            usuarios=usuarios,
-                           nomes_hoteis=nomes_hoteis
+                           nomes_hoteis=nomes_hoteis,
+                           zip=zip,
+                           form_reserva=form_reserva
                            )
 
 
