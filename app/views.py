@@ -1,7 +1,7 @@
 from flask import url_for, redirect, render_template, flash, g, session
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, login_manager
-from app.forms import CreateUserForm, LoginForm
+from app.forms import CreateUserForm, LoginForm, VerificarDisponibilidade
 from app.models import User, Hotels
 from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
@@ -9,6 +9,7 @@ from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, edi
 from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, verificar_disponibilidade, alterar_reserva, cancelar_reserva
 from app.scripts.adicionar_hospede import adicionar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
+from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
 
 
 @app.route('/')
@@ -17,9 +18,11 @@ def pagina_inicial():
         return redirect(url_for('lista_hotel'))
     return render_template('index.html')
 
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 # @app.route('/list/')
 # def posts():
@@ -37,7 +40,7 @@ def new():
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
 
     if usuario.hotel_id is None:
-        hoteis = Hotels.query.order_by(Hotels.created_at)
+        hoteis = Hotels.query.filter_by(user_id=user_id).order_by(Hotels.created_at)
         form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
     else:
         hoteis = Hotels.query.filter_by(id=usuario.hotel_id).order_by(Hotels.created_at)
@@ -46,8 +49,8 @@ def new():
     return render_template('new.html', form=form, hoteis=hoteis, usuario=usuario)
 
 
-@app.route('/save/', methods = ['GET','POST'])
-#@login_required
+@app.route('/save/', methods=['GET', 'POST'])
+# @login_required
 def save():
     user_id = g.user.get_id()
     form = CreateUserForm()
@@ -91,7 +94,14 @@ def save():
 def before_request():
     g.user = current_user
 
-@app.route('/login/', methods = ['GET', 'POST'])
+
+@app.context_processor
+def navbar():
+    form_reserva = VerificarDisponibilidade()
+    return dict(form_reserva=form_reserva)
+
+
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('new'))
@@ -115,9 +125,10 @@ def login():
             flash('E-mail não encontrado.', 'danger')
             return redirect('/login')
 
-    return render_template('login.html', 
-        title = 'Sign In',
-        form = form)
+    return render_template('login.html',
+                           title='Sign In',
+                           form=form)
+
 
 @app.route('/logout/')
 def logout():
@@ -201,11 +212,13 @@ def editar_quarto_endpoint(id):
     user_id = g.user.get_id()
     return editar_quarto(id, user_id)
 
+
 @app.route('/adicionar-reserva', methods=['GET', 'POST'])
 @login_required
 def adicionar_reserva_endpoint():
     user_id = g.user.get_id()
     return adicionar_reserva(user_id)
+
 
 @app.route('/adicionar-hospede', methods=['GET', 'POST'])
 @login_required
@@ -213,11 +226,13 @@ def adicionar_hospede_endpoint():
     user_id = g.user.get_id()
     return adicionar_hospede(user_id)
 
+
 @app.route('/lista-reservas/')
 @login_required
 def lista_reservas():
     user_id = g.user.get_id()
     return listar_reservas(user_id)
+
 
 @app.route('/verificar-disponibilidade/', methods=['POST'])
 @login_required
@@ -230,6 +245,35 @@ def verificar_disponibilidade_endpoint():
 def quartos_disponiveis():
     user_id = g.user.get_id()
     return verificar_disponibilidade(user_id)
+
+
+@app.route('/adicionar-conta', methods=['GET', 'POST'])
+@login_required
+def adicionar_conta_endpoint():
+    user_id = g.user.get_id()
+    return adicionar_conta(user_id)
+
+
+@app.route('/listar-contas', methods=['GET', 'POST'])
+@login_required
+def listar_conta_endpoint():
+    user_id = g.user.get_id()
+    return listar_contas(user_id)
+
+
+@app.route('/editar-conta/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_conta_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_conta(id, user_id)
+
+
+@app.route('/deletar-conta/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_conta_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_conta(id, user_id)
+
 
 @app.route('/alterar-reserva/<int:id>', methods=['GET', 'POST'])
 @login_required

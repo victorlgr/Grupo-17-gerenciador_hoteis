@@ -1,4 +1,3 @@
-import enum
 from app import db
 from flask_login import UserMixin
 from datetime import datetime as dt
@@ -64,6 +63,7 @@ class User(db.Model, UserMixin):
     profile = db.Column(db.String(15))
     email = db.Column(db.String(120), unique=True)
     hotel_id = db.Column(db.Integer)
+
     # posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
     def is_authenticated(self):
@@ -99,6 +99,7 @@ class Status(enum.Enum):
     ATIVO = "ativo"
     CANCELADO = "cancelado"
 
+
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -109,3 +110,16 @@ class Reservation(db.Model):
     check_out = db.Column(db.DateTime)
     payment_type = db.Column(db.String(20)) #Enum?
     status = db.Column(db.Enum(Status), default=Status.ATIVO)
+    payment_type = db.Column(db.String(20))  # Enum?
+
+
+class Account(db.Model):
+    __tablename__ = 'Account'
+    id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.String(20))
+    hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    descricao = db.Column(db.String(30))
+    valor = db.Column(db.Float)
+    data_cadastro = db.Column(db.Date, default=dt.now())
+    data_pgto = db.Column(db.Date)
