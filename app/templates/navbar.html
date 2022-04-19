@@ -71,7 +71,7 @@
 
             <p class="text-white fs-6 me-2 mt-3">N˚ de Hóspedes:</p>
 
-            <form method="POST">
+            <form action="{{ url_for('verificar_disponibilidade_endpoint') }}" method="POST">
                 {{ form_reserva.hidden_tag() }}
                 <div class="row">
                     <div class="form-group col-2">
