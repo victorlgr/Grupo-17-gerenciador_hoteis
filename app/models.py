@@ -120,6 +120,7 @@ class Account(db.Model):
     tipo = db.Column(db.String(20))
     hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
     guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
+    reservation_id = db.Column(db.Integer, db.ForeignKey('reservation.id'))
     descricao = db.Column(db.String(30))
     valor = db.Column(db.Float)
     data_cadastro = db.Column(db.Date, default=dt.now())

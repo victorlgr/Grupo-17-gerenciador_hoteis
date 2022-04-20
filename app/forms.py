@@ -58,7 +58,6 @@ class AdicionarQuarto(FlaskForm):
     phone_extension = StringField('Extensão telefone', validators=[DataRequired()])
     price = StringField('Preço', validators=[DataRequired()])
     guest_limit = StringField('Número de hóspedes', validators=[DataRequired()])
-    status = StringField('Status', validators=[DataRequired()])
 
     submeter = SubmitField('Submeter')
 

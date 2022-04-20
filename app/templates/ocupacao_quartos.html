@@ -20,7 +20,11 @@
                         <p>Tipo: {{ quarto.kind }}</p>
                         <p>Preço: {{ quarto.price }}</p>
                         <p>Hóspedes: {{ quarto.guest_limit }}</p>
-                        <p>Status: {{ quarto.status }}</p>
+                        {% if status_reservas[quarto.id] %}
+                            <p>Status: Ocupado</p>
+                        {% else %}
+                            <p>Status: Disponível</p>
+                        {% endif %}
                         <div class="d-flex justify-content-between align-items-center">
                             <form method="POST" action="{{ url_for('editar_quarto_endpoint', id=quarto.id) }}">
                                 <div class="btn-group">
