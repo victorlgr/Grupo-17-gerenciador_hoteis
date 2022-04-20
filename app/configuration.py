@@ -1,7 +1,7 @@
 
 class Config(object):
 	# Configuration base, for all environments.
-	DEBUG = True
+	DEBUG = False
 	TESTING = False
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///../application.db'
 	BOOTSTRAP_FONTAWESOME = True
@@ -22,4 +22,7 @@ class DevelopmentConfig(Config):
 	DEBUG = True
 
 class TestingConfig(Config):
+	SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+	DEBUG = True
 	TESTING = True
+	WTF_CSRF_ENABLED = False

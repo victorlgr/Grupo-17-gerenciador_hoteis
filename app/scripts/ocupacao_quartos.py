@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
+from datetime import datetime as dt
 from app.forms import AdicionarQuarto, VerificarDisponibilidade
-from app.models import Rooms, Hotels, User
+from app.models import Rooms, Hotels, User, Reservation, Status
 from app import db
 
 
@@ -28,8 +29,7 @@ def adicionar_quarto(user_id):
                              kind=form.kind.data,
                              phone_extension=form.phone_extension.data,
                              price=form.price.data,
-                             guest_limit=form.guest_limit.data,
-                             status=form.status.data)
+                             guest_limit=form.guest_limit.data)
                 db.session.add(room)
                 db.session.commit()
 
@@ -54,8 +54,15 @@ def ocupacao_quartos(id, user_id):
     if hotel.user_id != user_id and user.hotel_id != hotel.id:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     quartos = Rooms.query.filter_by(hotel_id=id).order_by(Rooms.number)
+    reservas = Reservation.query.order_by(Reservation.id)
+    hoje = dt.strptime(dt.today().strftime('%Y-%m-%d'), '%Y-%m-%d')
+    status_reservas = [(r.room_id, (r.check_in <= hoje <= r.check_out)) for r in reservas if r.status == Status.ATIVO]
+    status_reservas = [status for status in status_reservas if status[1] is True]
+    status_reservas = dict(set(status_reservas))
     return render_template('ocupacao_quartos.html',
-                           quartos=quartos, form_reserva=form_reserva
+                           quartos=quartos,
+                           form_reserva=form_reserva,
+                           status_reservas=status_reservas
                            )
 
 
@@ -99,7 +106,6 @@ def editar_quarto(quarto, user_id):
             to_update.phone_extension = request.form['phone_extension']
             to_update.price = request.form['price']
             to_update.guest_limit = request.form['guest_limit']
-            to_update.status = request.form['status']
             db.session.commit()
         return redirect(f"/ocupacao-quartos/{request.form['hotel_id']}")
 
@@ -112,7 +118,6 @@ def editar_quarto(quarto, user_id):
     form.phone_extension.data = room.phone_extension
     form.price.data = room.price
     form.guest_limit.data = room.guest_limit
-    form.status.data = room.status
 
     return render_template('adicionar_quartos.html',
                            form=form,

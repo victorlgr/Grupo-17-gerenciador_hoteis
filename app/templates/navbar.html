@@ -43,9 +43,11 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_hotel_endpoint') }}">Hoteis</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_quarto_endpoint') }}">Quartos</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('adicionar_hospede_endpoint') }}">Hóspedes</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('adicionar_hospede_endpoint') }}">Hóspedes</a>
+                        </li>
                         {% if current_user.get_profile() in ['admin', 'gerente'] %}
-                            <li><a class="dropdown-item" aria-current="page" href="/lista-usuarios">Lista de usuários</a></li>
+                            <li><a class="dropdown-item" aria-current="page" href="/lista-usuarios">Lista de
+                                usuários</a></li>
                         {% endif %}
                         <li><a class="dropdown-item" aria-current="page" href="/new">Novo usuário</a></li>
                     </ul>
@@ -81,11 +83,11 @@
                     <div class="form-group col-3">
                         {{ form_reserva.check_in(class="form-control") }}
                     </div>
-            
+
                     <div class="form-group col-3">
                         {{ form_reserva.check_out(class="form-control") }}
                     </div>
-            
+
                     <div class="form-group col-2">
                         {{ form_reserva.submeter(class="btn btn-secondary") }}
                     </div>
