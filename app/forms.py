@@ -76,6 +76,7 @@ class AdicionarReserva(FlaskForm):
 
 
 class AdicionarHospede(FlaskForm):
+    hotel_id = SelectField('Hotel', validators=[DataRequired()])
     name = StringField(u'Nome', validators=[InputRequired()])
     email = StringField(u'E-mail', validators=[InputRequired()])
     phone = StringField('Telefone', validators=[DataRequired()])

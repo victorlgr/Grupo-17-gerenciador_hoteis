@@ -9,7 +9,13 @@ def adicionar_hospede(user_id):
     form_reserva = VerificarDisponibilidade()
     form = AdicionarHospede()
     user = User.query.filter_by(id=user_id).first()
-    hotel = Hotels.query.filter_by(id=user.hotel_id).first()
+
+    if user.hotel_id is None:
+        hoteis = Hotels.query.order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis if hotel.user_id == user_id]
+    else:
+        hoteis = Hotels.query.filter_by(id=user.hotel_id).order_by(Hotels.created_at)
+        form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -30,23 +36,23 @@ def adicionar_hospede(user_id):
                 birthday = datetime.strptime(form.birthday.data, "%d/%m/%Y")
 
                 guest = Guest(name=form.name.data,
-                                phone=form.phone.data,
-                                email=form.email.data,
-                                cpf=form.cpf.data,
-                                birthday=birthday,
-                                hotel_id=hotel.id,
-                                address_id=address.id)
+                              phone=form.phone.data,
+                              email=form.email.data,
+                              cpf=form.cpf.data,
+                              birthday=birthday,
+                              hotel_id=form.hotel_id.data,
+                              address_id=address.id)
 
                 db.session.add(guest)
                 db.session.commit()
 
-                flash('Hospede cadastrado com sucesso!')
+                flash('Hospede cadastrado com sucesso!', 'success')
             else:
-                flash('Hospede já existe...')
-        flash('Validação falhou!')        
-        return render_template('add_hospede.html', form=form, titulo='Adicionar Hospede', form_reserva=form_reserva)
+                flash('Hospede já existe...', 'danger')
+        return redirect(url_for('adicionar_hospede_endpoint'))
 
     return render_template('add_hospede.html',
                            form=form,
-                           titulo='Adicionar Hospede', form_reserva=form_reserva
+                           titulo='Adicionar Hospede', form_reserva=form_reserva,
+                           user=user
                            )

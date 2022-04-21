@@ -124,7 +124,7 @@ def login():
                 return redirect('/login')
         else:
             flash('E-mail não encontrado.', 'danger')
-            return redirect('/login')
+            return redirect(url_for('login'))
 
     return render_template('login.html',
                            title='Sign In',
