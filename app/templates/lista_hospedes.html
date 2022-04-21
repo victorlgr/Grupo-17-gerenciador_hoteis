@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h1 style="display: inline-block;">Hóspedes</h1>
+        <a href="{{ url_for('adicionar_hospede_endpoint') }}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    style="float: right">Adicionar hóspede
+            </button>
+        </a>
+        <br><br>
+    </div>
+
+
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
+            {{ mensagem }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <table id="tabela" class="table table-hover">
+        <thead>
+        <tr>
+            {% if current_user.get_profile() in ['admin'] %}
+                <th>Hotel</th>
+            {% endif %}
+            <th>Hóspede</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for hospede in hospedes %}
+            <tr>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <td>{{ hotel_choices[hospede.hotel_id] }}</td>
+                {% endif %}
+                <td>{{ hospede.name }}</td>
+                <td>{{ hospede.cpf }}</td>
+                <td>{{ hospede.phone }}</td>
+                <td>{{ hospede.email }}</td>
+                <td><a href="{{ url_for('editar_hospede_endpoint', id=hospede.id) }}">Link</a></td>
+            <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#Modal_{{ hospede.id }}"
+                            value="{{ hospede.id }}" id="user_{{ hospede.id }}">
+                        Deletar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <div class="modal fade" id="Modal_{{ hospede.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza que deseja deletar o hóspede <b>{{ hospede.name }}</b>?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{{ url_for('deletar_hospede_endpoint', id=hospede.id) }}">
+                                <button type="button" class="btn btn-danger"
+                                >Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabela').DataTable();
+        });
+    </script>
+{% endblock %}

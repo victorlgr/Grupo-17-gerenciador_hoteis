@@ -16,7 +16,7 @@
         {{ form.csrf_token }}
 
         <div class="row">
-            {% if user.hotel_id is none %}
+            {% if current_user.get_profile() in ['admin'] %}
                 <div class="form-group col-6">
             {% else %}
                 <div class="form-group col-6" style="display: None">
@@ -97,6 +97,7 @@
                 </div>
             </div>
             </div>
+        </div>
     </form>
 
 {% endblock %}

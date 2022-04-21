@@ -7,7 +7,7 @@ from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
 from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, verificar_disponibilidade, alterar_reserva, cancelar_reserva
-from app.scripts.adicionar_hospede import adicionar_hospede
+from app.scripts.adicionar_hospede import adicionar_hospede, listar_hospedes, editar_hospede, deletar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
 from app.scripts.dashboard import dashboard
@@ -226,6 +226,27 @@ def adicionar_reserva_endpoint():
 def adicionar_hospede_endpoint():
     user_id = g.user.get_id()
     return adicionar_hospede(user_id)
+
+
+@app.route('/lista-hospedes', methods=['GET', 'POST'])
+@login_required
+def lista_hospedes_endpoint():
+    user_id = g.user.get_id()
+    return listar_hospedes(user_id)
+
+
+@app.route('/editar-hospede/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_hospede_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_hospede(id, user_id)
+
+
+@app.route('/deletar-hospede/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_hospede_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_hospede(id, user_id)
 
 
 @app.route('/lista-reservas/')

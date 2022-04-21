@@ -117,5 +117,5 @@ def editar_hotel(hotel, user_id):
     return render_template('formulario_hotel.html',
                            form=form,
                            titulo='Editar hotel',
-                           form_reserva = form_reserva
+                           form_reserva=form_reserva
                            )

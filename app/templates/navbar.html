@@ -43,7 +43,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_hotel_endpoint') }}">Hoteis</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_quarto_endpoint') }}">Quartos</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('adicionar_hospede_endpoint') }}">Hóspedes</a>
+                        <li><a class="dropdown-item" href="{{ url_for('lista_hospedes_endpoint') }}">Hóspedes</a>
                         </li>
                         {% if current_user.get_profile() in ['admin', 'gerente'] %}
                             <li><a class="dropdown-item" aria-current="page" href="/lista-usuarios">Lista de
