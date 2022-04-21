@@ -20,12 +20,12 @@
         {{ form.hidden_tag() }}
 
         <div class="row">
-            {% if current_user.get_profile() in ['admin'] %}
-                <div class="form-group col-6">
-                    {{ form.hotel_id.label(class="form-label") }}
-                    {{ form.hotel_id(class="form-control") }}
-                </div>
-            {% endif %}
+
+            <div class="form-group col-6" style="display: None">
+                {{ form.hotel_id.label(class="form-label") }}
+                {{ form.hotel_id(class="form-control") }}
+            </div>
+
 
             <div class="form-group col-6">
                 {{ form.guest_id.label(class="form-label") }}

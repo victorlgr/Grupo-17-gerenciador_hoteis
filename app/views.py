@@ -10,6 +10,7 @@ from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, ve
 from app.scripts.adicionar_hospede import adicionar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
+from app.scripts.dashboard import dashboard
 
 
 @app.route('/')
@@ -286,3 +287,10 @@ def alterar_reserva_endpoint(id):
 def cancelar_reserva_endpoint(id):
     user_id = g.user.get_id()
     return cancelar_reserva(id, user_id)
+
+
+@app.route('/dashboard/<int:id>', methods=['GET', 'POST'])
+@login_required
+def dashboard_endpoint(id):
+    user_id = g.user.get_id()
+    return dashboard(id)
