@@ -17,6 +17,7 @@ def adicionar_conta(user_id):
     form.guest_id.choices = [(hospede.id, hospede.name) for hospede in hospedes if hospede.hotel_id in hoteis_id]
 
     if request.method == 'POST':
+        print(form.data)
         if form.validate_on_submit():
             conta = Account(tipo=form.tipo.data,
                             hotel_id=form.hotel_id.data,

@@ -2,14 +2,18 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ url_for('pagina_inicial') }}">Início</a>
-                </li>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('lista_hotel') }}">Hoteis</a>
+                    </li>
+                {% endif %}
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Quartos
                     </a>
+
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.get_hotel_id() is not none %}
                             <li><a class="dropdown-item"
@@ -24,14 +28,12 @@
                     <a class="nav-link" aria-current="page" href="{{ url_for('listar_conta_endpoint') }}">Financeiro</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Estoque</a>
+                    <a class="nav-link" aria-current="page" href="{{ url_for('listar_estoque_endpoint') }}">Estoque</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Indicadores</a>
-                </li>
-                {% if current_user.get_profile() in ['admin'] %}
+                {% if current_user.get_profile() in ['gerente', 'financeiro'] %}
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('lista_hotel') }}">Hoteis</a>
+                        <a class="nav-link" aria-current="page"
+                           href="{{ url_for('dashboard_endpoint', id=current_user.get_hotel_id()) }}">Indicadores</a>
                     </li>
                 {% endif %}
                 {% if current_user.get_profile() in ['admin', 'gerente'] %}
@@ -43,7 +45,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_hotel_endpoint') }}">Hoteis</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('adicionar_quarto_endpoint') }}">Quartos</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('adicionar_hospede_endpoint') }}">Hóspedes</a>
+                        <li><a class="dropdown-item" href="{{ url_for('lista_hospedes_endpoint') }}">Hóspedes</a>
                         </li>
                         {% if current_user.get_profile() in ['admin', 'gerente'] %}
                             <li><a class="dropdown-item" aria-current="page" href="/lista-usuarios">Lista de

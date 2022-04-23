@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="mt-4">
-        <h1>Lista de hoteis cadastrados</h1>
-        <br>
+        <h1 style="display: inline-block;">Estoque</h1>
+        <a href="{{ url_for('adicionar_estoque_endpoint') }}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    style="float: right">Adicionar estoque
+            </button>
+        </a>
+        <br><br>
     </div>
 
 
-    {% for mensagem in get_flashed_messages() %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
             {{ mensagem }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -16,51 +21,51 @@
     <table id="tabela" class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
+            {% if current_user.get_profile() in ['admin'] %}
+                <th>Hotel</th>
+            {% endif %}
+            <th>Categoria</th>
             <th>Nome</th>
-            <th>Telefone</th>
-            <th>E-mail</th>
-            <th>CNPJ</th>
-            <th>Editar hotel</th>
-            <th>Dashboard</th>
-            <th>Quartos</th>
-            <th></th>
+            <th>Detalhes</th>
+            <th>Data</th>
+            <th>Editar estoque</th>
+            <th>Deletar estoque</th>
         </tr>
         </thead>
         <tbody>
-        {% for hotel in hoteis %}
+        {% for estoque in estoques %}
             <tr>
-                <td>{{ hotel.id }}</td>
-                <td>{{ hotel.name }}</td>
-                <td>{{ hotel.phone }}</td>
-                <td>{{ hotel.email }}</td>
-                <td>{{ hotel.cnpj }}</td>
-                <td><a href="{{ url_for('editar_hotel_endpoint', id=hotel.id) }}">Link</a></td>
-                <td><a href="{{ url_for('dashboard_endpoint', id=hotel.id) }}">Link</a></td>
-                <td><a href="{{ url_for('ocupacao_quartos_endpoint', id=hotel.id) }}">Link</a></td>
-                <td>
+                {% if current_user.get_profile() in ['admin'] %}
+                    <td>{{ hotel_choices[estoque.hotel_id] }}</td>
+                {% endif %}
+                <td>{{ estoque.categoria }}</td>
+                <td>{{ estoque.nome }}</td>
+                <td>{{ estoque.detalhes }}</td>
+                <td>{{ estoque.data }}</td>
+                <td><a href="{{ url_for('editar_estoque_endpoint', id=estoque.id) }}">Link</a></td>
+            <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#Modal_{{ hotel.id }}"
-                            value="{{ hotel.id }}" id="hotel_{{ hotel.id }}">
+                            data-bs-target="#Modal_{{ estoque.id }}"
+                            value="{{ estoque.id }}" id="user_{{ estoque.id }}">
                         Deletar
                     </button>
                 </td>
             </tr>
             </tbody>
-            <div class="modal fade" id="Modal_{{ hotel.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="Modal_{{ estoque.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Deletar hotel</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Deletar estoque</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Tem certeza que deseja deletar o hotel <b>{{ hotel.name }}</b>?
+                            Tem certeza que deseja deletar o registro <b>{{ estoque.nome }}</b>?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="{{ url_for('deletar_hotel_endpoint', id=hotel.id) }}">
+                            <a href="{{ url_for('deletar_estoque_endpoint', id=estoque.id) }}">
                                 <button type="button" class="btn btn-danger"
                                 >Deletar
                                 </button>

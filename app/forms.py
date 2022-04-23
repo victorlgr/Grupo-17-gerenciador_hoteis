@@ -76,6 +76,7 @@ class AdicionarReserva(FlaskForm):
 
 
 class AdicionarHospede(FlaskForm):
+    hotel_id = SelectField('Hotel', validators=[DataRequired()])
     name = StringField(u'Nome', validators=[InputRequired()])
     email = StringField(u'E-mail', validators=[InputRequired()])
     phone = StringField('Telefone', validators=[DataRequired()])
@@ -108,5 +109,14 @@ class Contas(FlaskForm):
     descricao = StringField('Descrição', validators=[DataRequired()])
     valor = StringField('Valor', validators=[DataRequired()])
     data_pagamento = DateField('Data pagamento')
+
+    submeter = SubmitField('Submeter')
+
+
+class Estoque(FlaskForm):
+    hotel_id = SelectField('Hotel', validators=[DataRequired()])
+    categoria = StringField('Categoria', validators=[DataRequired()])
+    nome = StringField('Nome', validators=[DataRequired()])
+    detalhes = StringField('Detalhes', validators=[DataRequired()])
 
     submeter = SubmitField('Submeter')

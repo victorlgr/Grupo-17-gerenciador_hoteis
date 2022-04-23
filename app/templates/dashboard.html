@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <main class="col-md-9 col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ contador_quartos }} / {{ len(status_reservas) }}</h5>
+                        <p class="card-subtitle mb-2 text-muted">Quartos ocupados / Quartos total</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ contador_hospedes }}</h5>
+                        <p class="card-subtitle mb-2 text-muted">Hóspedes</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">R$ {{ contas_receber_mes }}</h5>
+                        <p class="card-subtitle mb-2 text-muted">Contas recebidas no mês</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">R$ {{ contas_pagar_mes }}</h5>
+                        <p class="card-subtitle mb-2 text-muted">Contas pagas no mês</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex flex-row" style="margin:0 -4rem">
+            <div id='graphs_bar' class='col-xs-6'></div>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src='{{ url_for('static', filename='js/plotly-latest.min.js') }}'></script>
+    <script type='text/javascript'>
+        let graphs_bar = {{fig_1 | safe}};
+        Plotly.plot('graphs_bar', graphs_bar, {});
+    </script>
+{% endblock %}
