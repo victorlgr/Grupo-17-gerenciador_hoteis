@@ -7,9 +7,11 @@ from app import db, bcrypt
 from app.scripts.adicionar_hotel import adicionar_hotel, listar_hoteis, editar_hotel, deletar_hotel
 from app.scripts.ocupacao_quartos import adicionar_quarto, ocupacao_quartos, editar_quarto, deletar_quarto
 from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, verificar_disponibilidade, alterar_reserva, cancelar_reserva
-from app.scripts.adicionar_hospede import adicionar_hospede
+from app.scripts.adicionar_hospede import adicionar_hospede, listar_hospedes, editar_hospede, deletar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
+from app.scripts.estoque import adicionar_estoque, listar_estoque, editar_estoque, deletar_estoque
+from app.scripts.dashboard import dashboard
 
 
 @app.route('/')
@@ -123,7 +125,7 @@ def login():
                 return redirect('/login')
         else:
             flash('E-mail não encontrado.', 'danger')
-            return redirect('/login')
+            return redirect(url_for('login'))
 
     return render_template('login.html',
                            title='Sign In',
@@ -227,6 +229,27 @@ def adicionar_hospede_endpoint():
     return adicionar_hospede(user_id)
 
 
+@app.route('/lista-hospedes', methods=['GET', 'POST'])
+@login_required
+def lista_hospedes_endpoint():
+    user_id = g.user.get_id()
+    return listar_hospedes(user_id)
+
+
+@app.route('/editar-hospede/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_hospede_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_hospede(id, user_id)
+
+
+@app.route('/deletar-hospede/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_hospede_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_hospede(id, user_id)
+
+
 @app.route('/lista-reservas/')
 @login_required
 def lista_reservas():
@@ -286,3 +309,38 @@ def alterar_reserva_endpoint(id):
 def cancelar_reserva_endpoint(id):
     user_id = g.user.get_id()
     return cancelar_reserva(id, user_id)
+
+
+@app.route('/dashboard/<int:id>', methods=['GET', 'POST'])
+@login_required
+def dashboard_endpoint(id):
+    user_id = g.user.get_id()
+    return dashboard(id)
+
+
+@app.route('/adicionar-estoque', methods=['GET', 'POST'])
+@login_required
+def adicionar_estoque_endpoint():
+    user_id = g.user.get_id()
+    return adicionar_estoque(user_id)
+
+
+@app.route('/listar-estoque', methods=['GET', 'POST'])
+@login_required
+def listar_estoque_endpoint():
+    user_id = g.user.get_id()
+    return listar_estoque(user_id)
+
+
+@app.route('/editar-estoque/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_estoque_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_estoque(id, user_id)
+
+
+@app.route('/deletar-estoque/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_estoque_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_estoque(id, user_id)

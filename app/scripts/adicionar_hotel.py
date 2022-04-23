@@ -41,7 +41,7 @@ def adicionar_hotel(user_id):
                 flash('Hotel cadastrado com sucesso!')
             else:
                 flash('Hotel já existe...')
-        return redirect('/adicionar-hotel')
+        return redirect(url_for('adicionar_hotel_endpoint'))
 
     return render_template('formulario_hotel.html',
                            form=form,
@@ -117,5 +117,5 @@ def editar_hotel(hotel, user_id):
     return render_template('formulario_hotel.html',
                            form=form,
                            titulo='Editar hotel',
-                           form_reserva = form_reserva
+                           form_reserva=form_reserva
                            )
