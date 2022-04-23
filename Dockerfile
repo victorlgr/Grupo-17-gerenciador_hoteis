@@ -8,6 +8,8 @@ EXPOSE 80
 
 COPY . .
 
+RUN pip3 install --upgrade pip
+
 # Install any dependencies
 RUN pip3 install -r requirements.txt
 
