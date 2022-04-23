@@ -111,3 +111,12 @@ class Contas(FlaskForm):
     data_pagamento = DateField('Data pagamento')
 
     submeter = SubmitField('Submeter')
+
+
+class Estoque(FlaskForm):
+    hotel_id = SelectField('Hotel', validators=[DataRequired()])
+    categoria = StringField('Categoria', validators=[DataRequired()])
+    nome = StringField('Nome', validators=[DataRequired()])
+    detalhes = StringField('Detalhes', validators=[DataRequired()])
+
+    submeter = SubmitField('Submeter')

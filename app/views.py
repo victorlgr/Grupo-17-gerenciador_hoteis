@@ -10,6 +10,7 @@ from app.scripts.adicionar_reserva import adicionar_reserva, listar_reservas, ve
 from app.scripts.adicionar_hospede import adicionar_hospede, listar_hospedes, editar_hospede, deletar_hospede
 from app.scripts.usuarios import listar_usuarios, deletar_usuario, editar_usuario
 from app.scripts.financeiro import adicionar_conta, listar_contas, editar_conta, deletar_conta
+from app.scripts.estoque import adicionar_estoque, listar_estoque, editar_estoque, deletar_estoque
 from app.scripts.dashboard import dashboard
 
 
@@ -315,3 +316,31 @@ def cancelar_reserva_endpoint(id):
 def dashboard_endpoint(id):
     user_id = g.user.get_id()
     return dashboard(id)
+
+
+@app.route('/adicionar-estoque', methods=['GET', 'POST'])
+@login_required
+def adicionar_estoque_endpoint():
+    user_id = g.user.get_id()
+    return adicionar_estoque(user_id)
+
+
+@app.route('/listar-estoque', methods=['GET', 'POST'])
+@login_required
+def listar_estoque_endpoint():
+    user_id = g.user.get_id()
+    return listar_estoque(user_id)
+
+
+@app.route('/editar-estoque/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_estoque_endpoint(id):
+    user_id = g.user.get_id()
+    return editar_estoque(id, user_id)
+
+
+@app.route('/deletar-estoque/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deletar_estoque_endpoint(id):
+    user_id = g.user.get_id()
+    return deletar_estoque(id, user_id)

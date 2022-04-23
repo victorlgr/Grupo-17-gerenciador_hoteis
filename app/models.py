@@ -124,3 +124,13 @@ class Account(db.Model):
     valor = db.Column(db.Float)
     data_cadastro = db.Column(db.Date, default=dt.now())
     data_pgto = db.Column(db.Date)
+
+
+class Inventory(db.Model):
+    __tablename__ = 'Inventory'
+    id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
+    categoria = db.Column(db.String(20))
+    nome = db.Column(db.String(80))
+    detalhes = db.Column(db.String(80))
+    data = db.Column(db.Date, default=dt.now())
