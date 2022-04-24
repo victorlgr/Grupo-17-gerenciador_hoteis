@@ -79,13 +79,13 @@ def deletar_quarto(id_quarto, user_id):
     return redirect(f'/ocupacao-quartos/{id_hotel}')
 
 
-def editar_quarto(quarto, user_id):
+def editar_quarto(quarto_id, user_id):
     form_reserva = VerificarDisponibilidade()
     form = AdicionarQuarto()
     user = User.query.filter_by(id=user_id).first()
 
     user_id_room = Rooms \
-        .query.filter_by(id=quarto) \
+        .query.filter_by(id=quarto_id) \
         .join(Hotels, Rooms.hotel_id == Hotels.id).add_columns(Hotels.user_id).add_columns(Hotels.id)
     if [i.user_id for i in user_id_room][0] != user_id and user.hotel_id != [i for i in user_id_room][0][2]:
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
@@ -99,7 +99,7 @@ def editar_quarto(quarto, user_id):
 
     if form.validate_on_submit():
         if request.method == 'POST':
-            to_update = Rooms.query.get_or_404(quarto)
+            to_update = Rooms.query.get_or_404(quarto_id)
             to_update.hotel_id = request.form['hotel_id']
             to_update.number = request.form['number']
             to_update.kind = request.form['kind']
@@ -109,7 +109,7 @@ def editar_quarto(quarto, user_id):
             db.session.commit()
         return redirect(f"/ocupacao-quartos/{request.form['hotel_id']}")
 
-    room = Rooms.query.filter_by(id=quarto).first()
+    room = Rooms.query.filter_by(id=quarto_id).first()
 
     form.hotel_id.default = room.hotel_id
     form.process()
@@ -122,6 +122,7 @@ def editar_quarto(quarto, user_id):
     return render_template('adicionar_quartos.html',
                            form=form,
                            user=user,
+                           quarto=room,
                            titulo='Editar quarto',
                            form_reserva=form_reserva
                            )

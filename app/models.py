@@ -111,6 +111,7 @@ class Reservation(db.Model):
     check_out = db.Column(db.DateTime)
     payment_type = db.Column(db.String(20)) #Enum?
     status = db.Column(db.Enum(Status), default=Status.ATIVO)
+    total_price = db.Column(db.REAL)
 
 
 class Account(db.Model):
