@@ -104,7 +104,7 @@ class VerificarDisponibilidade(FlaskForm):
 
 class Contas(FlaskForm):
     hotel_id = SelectField('Hotel', validators=[DataRequired()])
-    guest_id = SelectField('Hóspede', validators=[DataRequired()])
+    guest_id = SelectField('Nome', validators=[DataRequired()])
     tipo = SelectField('Tipo', choices=['Contas a pagar', 'Contas a receber'], validators=[DataRequired()])
     descricao = StringField('Descrição', validators=[DataRequired()])
     valor = StringField('Valor', validators=[DataRequired()])

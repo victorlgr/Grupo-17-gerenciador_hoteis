@@ -1,10 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
 from datetime import datetime as dt
-import pandas as pd
-import plotly
-import plotly.express as px
 import json
 import locale
+from sqlalchemy import func
 from app.models import Rooms, Hotels, User, Reservation, Status, Guest, Account
 from app import db
 
@@ -39,17 +37,17 @@ def dashboard(hotel_id):
                 contas_pagar_mes += c.valor
     status_reservas = dict(set(status_reservas))
 
-    df = pd.read_sql(contas.statement, contas.session.bind)
-    df = df[df['data_pgto'].notna()]
-    df['ano_mes_pgto'] = pd.to_datetime(df['data_pgto'])
-    df['ano_mes_pgto'] = df['ano_mes_pgto'].dt.year.astype('str') + '-' + df['ano_mes_pgto'].dt.month.astype(
-        'str').str.zfill(2)
-    df = df.groupby(['ano_mes_pgto', 'tipo']).sum().reset_index()
+    '''contas_grafico = [(dt.strftime(conta.data_pgto, '%Y-%m'), conta.tipo, conta.valor) for conta in contas if
+                      conta.data_pgto is not None]
+    contas_grafico = json.dumps(contas_grafico)'''
 
-    fig_1 = px.bar(df, x="ano_mes_pgto", y="valor", color="tipo", width=1300, height=500,
-                   color_discrete_map={'Contas a receber': '#370A90', 'Contas a pagar': '#A34D0D'})
-    fig_1.update_layout(xaxis_type='category')
-    fig_1 = json.dumps(fig_1, cls=plotly.utils.PlotlyJSONEncoder)
+    query = db.session.query(
+        Account.data_pgto, Account.tipo, func.sum(Account.valor)
+    ).group_by(Account.data_pgto, Account.tipo).filter(Account.data_pgto is not None).all()
+
+    contas_grafico = [(dt.strftime(conta[0], '%Y-%m'), conta[1], conta[2]) for conta in query if
+                      conta[0] is not None]
+    contas_grafico = json.dumps(contas_grafico)
 
     return render_template('dashboard.html',
                            status_reservas=status_reservas,
@@ -57,6 +55,6 @@ def dashboard(hotel_id):
                            contador_hospedes=contador_hospedes,
                            contas_receber_mes=contas_receber_mes,
                            contas_pagar_mes=contas_pagar_mes,
-                           # fig_1=fig_1,
+                           contas_grafico=contas_grafico,
                            len=len
                            )
