@@ -65,7 +65,7 @@ def editar_estoque(estoque_id, user_id):
             to_update_estoque.hotel_id = form.hotel_id.data
             to_update_estoque.categoria = form.categoria.data
             to_update_estoque.nome = form.nome.data
-            to_update_estoque.detales = form.detalhes.data
+            to_update_estoque.detalhes = form.detalhes.data
             db.session.commit()
 
             flash('Estoque editado com sucesso!', 'success')
