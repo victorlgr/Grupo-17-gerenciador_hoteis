@@ -26,6 +26,8 @@ def adicionar_quarto(user_id):
             if room is None:
                 room = Rooms(number=form.number.data,
                              hotel_id=form.hotel_id.data,
+                             name=form.name.data,
+                             short_description=form.short_description.data,
                              kind=form.kind.data,
                              phone_extension=form.phone_extension.data,
                              price=form.price.data,
@@ -102,6 +104,8 @@ def editar_quarto(quarto_id, user_id):
             to_update = Rooms.query.get_or_404(quarto_id)
             to_update.hotel_id = request.form['hotel_id']
             to_update.number = request.form['number']
+            to_update.name = request.form['name']
+            to_update.short_description = request.form['short_description']
             to_update.kind = request.form['kind']
             to_update.phone_extension = request.form['phone_extension']
             to_update.price = request.form['price']
@@ -114,6 +118,8 @@ def editar_quarto(quarto_id, user_id):
     form.hotel_id.default = room.hotel_id
     form.process()
     form.number.data = room.number
+    form.name.data = room.name
+    form.short_description.data = room.short_description
     form.kind.data = room.kind
     form.phone_extension.data = room.phone_extension
     form.price.data = room.price

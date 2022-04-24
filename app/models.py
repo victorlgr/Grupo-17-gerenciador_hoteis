@@ -22,6 +22,7 @@ class Rooms(db.Model):
     hotel_id = db.Column(db.Integer, db.ForeignKey('Hotels.id'))
     number = db.Column(db.Integer)
     name = db.Column(db.String(30))
+    short_description = db.Column(db.String(50))
     kind = db.Column(db.String(15))
     phone_extension = db.Column(db.String(15))
     price = db.Column(db.REAL)

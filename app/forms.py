@@ -53,6 +53,8 @@ class AdicionarHotel(FlaskForm):
 
 class AdicionarQuarto(FlaskForm):
     hotel_id = SelectField('Hotel', validators=[DataRequired()])
+    name = StringField('Nome', validators=[DataRequired()])
+    short_description = StringField('Descrição', validators=[DataRequired()])
     number = StringField('Número', validators=[DataRequired()])
     kind = StringField('Tipo', validators=[DataRequired()])
     phone_extension = StringField('Extensão telefone', validators=[DataRequired()])
