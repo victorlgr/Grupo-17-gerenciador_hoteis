@@ -65,7 +65,7 @@ class AdicionarQuarto(FlaskForm):
 class AdicionarReserva(FlaskForm):
     room_id = SelectField('Quarto', validators=[DataRequired()])
     guest_id = SelectField('Hóspede', validators=[DataRequired()])
-    total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
+    total_guests = IntegerField('Quantidade de hóspedes', validators=[DataRequired()])
     check_in = DateField('Data Entrada', validators=[DataRequired()])
     check_out = DateField('Data Saída', validators=[DataRequired()])
     payment_type = SelectField('Tipo de pagamento', validators=[DataRequired()],
@@ -95,7 +95,7 @@ class AdicionarHospede(FlaskForm):
 
 
 class VerificarDisponibilidade(FlaskForm):
-    total_guests = IntegerField('Quantidade de héspedes', validators=[DataRequired()])
+    total_guests = IntegerField('Quantidade de hóspedes', validators=[DataRequired()])
     check_in = DateField('Data Entrada', validators=[DataRequired()])
     check_out = DateField('Data Saída', validators=[DataRequired()])
 
