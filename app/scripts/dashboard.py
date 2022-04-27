@@ -56,7 +56,12 @@ def dashboard(hotel_id):
         'str').str.zfill(2)
     df = df.groupby(['ano_mes_pgto', 'tipo']).sum().reset_index()
     subset = df[['ano_mes_pgto', 'tipo', 'valor']]
+    ano_mes_pgto = list(subset['ano_mes_pgto'].unique())
+    base = pd.DataFrame(
+        {'ano_mes_pgto': sorted(ano_mes_pgto * 2), 'tipo': ['Contas a pagar', 'Contas a receber'] * len(ano_mes_pgto)})
+    subset = base.merge(subset, on=['ano_mes_pgto', 'tipo'], how='left').fillna(0)
     contas_grafico = [tuple(x) for x in subset.to_numpy()]
+    print(contas_grafico)
 
     return render_template('dashboard.html',
                            status_reservas=status_reservas,
