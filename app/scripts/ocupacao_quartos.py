@@ -36,7 +36,7 @@ def adicionar_quarto(user_id):
                 flash('Quarto cadastrado com sucesso!')
             else:
                 flash('Quarto já existe...')
-        return redirect('/adicionar-quarto')
+        return redirect(url_for('ocupacao_quartos_endpoint', id=form.hotel_id.data))
 
     return render_template('adicionar_quartos.html',
                            form=form,
@@ -75,7 +75,7 @@ def deletar_quarto(id_quarto, user_id):
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     db.session.delete(quarto)
     db.session.commit()
-    flash('Quarto deletado com sucesso!')
+    flash('Quarto deletado com sucesso!', 'success')
     return redirect(f'/ocupacao-quartos/{id_hotel}')
 
 
@@ -107,7 +107,8 @@ def editar_quarto(quarto, user_id):
             to_update.price = request.form['price']
             to_update.guest_limit = request.form['guest_limit']
             db.session.commit()
-        return redirect(f"/ocupacao-quartos/{request.form['hotel_id']}")
+            flash('Quarto editado com sucesso!', 'success')
+        return redirect(url_for('ocupacao_quartos_endpoint', id=request.form['hotel_id']))
 
     room = Rooms.query.filter_by(id=quarto).first()
 

@@ -1,77 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="mt-4">
-        <h1>Lista de usuários cadastrados</h1>
-        <br>
+<div class="mt-4">
+    <h1>Lista de usuários cadastrados</h1>
+    <br>
+</div>
+
+
+{% for mensagem in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ mensagem }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+{% endfor %}
 
+<table class="table table-hover">
 
-    {% for mensagem in get_flashed_messages() %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ mensagem }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-
-    <table class="table table-hover">
-
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Hotel</th>
+        <th>Tipo</th>
+        <th>E-mail</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for usuario in usuarios %}
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Hotel</th>
-            <th>Tipo</th>
-            <th>E-mail</th>
-            <th></th>
-            <th></th>
-        </tr>
-        {% for usuario in usuarios %}
-            {% for nome_hotel in nomes_hoteis %}
-                {% if nome_hotel[0] == usuario.hotel_id %}
-                    {% set nome_do_hotel_correto = nome_hotel[1] %}
-                    <tr>
-                    <td>{{ usuario.id }}</td>
-                    <td>{{ usuario.name }}</td>
-                    <td>{{ nome_do_hotel_correto }}</td>
-                    <td>{{ usuario.profile }}</td>
-                    <td>{{ usuario.email }}</td>
-                {% endif %}
-            {% endfor %}
-        <td>
-            <a href="{{ url_for('editar_usuario_endpoint', id=usuario.id) }}">Editar</a>
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#Modal_{{ usuario.id }}"
-                    value="{{ usuario.id }}" id="user_{{ usuario.id }}">
-                Deletar
-            </button>
-        </td>
+        <td>{{ usuario.id }}</td>
+        <td>{{ usuario.name }}</td>
+        <td>{{ hotel_choices[usuario.hotel_id] }}</td>
+        <td>{{ usuario.profile }}</td>
+        <td>{{ usuario.email }}</td>
+    <td>
+        <a href="{{ url_for('editar_usuario_endpoint', id=usuario.id) }}">Editar</a>
+    </td>
+    <td>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#Modal_{{ usuario.id }}"
+                value="{{ usuario.id }}" id="user_{{ usuario.id }}">
+            Deletar
+        </button>
+    </td>
 
-        </tr>
+    </tr>
 
-            <div class="modal fade" id="Modal_{{ usuario.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Deletar usuario</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Tem certeza que deseja deletar o usuario <b>{{ usuario.name }}</b>?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="{{ url_for('deletar_usuario_endpoint', id=usuario.id) }}">
-                                <button type="button" class="btn btn-danger"
-                                >Deletar
-                                </button>
-                            </a>
-                        </div>
-                    </div>
+    <div class="modal fade" id="Modal_{{ usuario.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deletar usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja deletar o usuario <b>{{ usuario.name }}</b>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="{{ url_for('deletar_usuario_endpoint', id=usuario.id) }}">
+                        <button type="button" class="btn btn-danger"
+                        >Deletar
+                        </button>
+                    </a>
                 </div>
             </div>
-        {% endfor %}
-    </table>
+        </div>
+    </div>
+    {% endfor %}
+</table>
 
 {% endblock %}
