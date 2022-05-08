@@ -5,8 +5,8 @@
     <h1>Ocupação dos quartos</h1>
     <br>
 
-    {% for mensagem in get_flashed_messages() %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
             {{ mensagem }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -48,16 +48,18 @@
                                 <li class="widget-49-meeting-item"><span><b>Preço:</b> R${{ quarto.price }}<span class="widget-49-meeting-time">(por noite)</span></span></li>
                                 <li class="widget-49-meeting-item"><span><b>Limite de Hóspedes:</b> {{ quarto.guest_limit }}</span></li>
                             </ul>
-                            <div class="widget-49-meeting-action">
-                                <form method="POST" action="{{ url_for('editar_quarto_endpoint', id=quarto.id) }}">
-                                    <div class="btn-group">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary"
-                                                value="{{ quarto.id }}">
-                                            Editar
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                            {% if current_user.get_profile() in ['gerente'] %}
+                                <div class="widget-49-meeting-action">
+                                    <form method="POST" action="{{ url_for('editar_quarto_endpoint', id=quarto.id) }}">
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                    value="{{ quarto.id }}">
+                                                Editar
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}  
                         </div>
                     </div>
                 </div>

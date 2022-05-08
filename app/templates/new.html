@@ -29,13 +29,13 @@
                                     {{ form.csrf_token }}
 
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeEmailX">Nome</label>
+                                        <label class="form-label mb-0" for="typeEmailX">Nome</label>
                                         <input name="name" type="name" id="typeName"
                                                class="form-control form-control-lg"/>
                                     </div>
                                     {% if usuario.profile == 'admin' %}
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeHotelX">Hotel</label>
+                                        <label class="form-label mb-0" for="typeHotelX">Hotel</label>
                                         <select class="form-select form-select-lg" aria-label="Default select example"
                                                 name="hotel_id" type="hotel" id="typeHotelX">
                                             <option selected>Selecione o hotel</option>
@@ -46,7 +46,7 @@
                                     </div>
                                     {% else %}
                                         <div class="form-outline form-white mb-4" style="display: none;">
-                                        <label class="form-label" for="typeHotelX">Hotel</label>
+                                        <label class="form-label mb-0" for="typeHotelX">Hotel</label>
                                         <select class="form-select form-select-lg" aria-label="Default select example"
                                                 name="hotel_id" type="hotel" id="typeHotelX">
                                             {% for hotel in hoteis %}
@@ -56,7 +56,7 @@
                                     </div>
                                     {% endif %}
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeProfileX">Tipo de usuário</label>
+                                        <label class="form-label mb-0" for="typeProfileX">Tipo de usuário</label>
                                         <select class="form-select form-select-lg" aria-label="Default select example"
                                                 name="profile" type="profile" id="typeProfileX">
                                             <option selected>Selecione o tipo</option>
@@ -69,19 +69,19 @@
                                         </select>
                                     </div>
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeEmailX">E-mail</label>
+                                        <label class="form-label mb-0" for="typeEmailX">E-mail</label>
                                         <input name="email" type="email" id="typeEmailX"
                                                class="form-control form-control-lg"/>
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typePasswordX">Senha</label>
+                                        <label class="form-label mb-0" for="typePasswordX">Senha</label>
                                         <input name="password" type="password" id="typePasswordX"
                                                class="form-control form-control-lg"/>
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typePasswordX">Confirmação de senha</label>
+                                        <label class="form-label mb-0" for="typePasswordX">Confirmação de senha</label>
                                         <input name="password_confirmation" type="password"
                                                id="typePasswordConfirmationX" class="form-control form-control-lg"/>
                                     </div>

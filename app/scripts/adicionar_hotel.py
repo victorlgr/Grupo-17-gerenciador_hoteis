@@ -38,9 +38,9 @@ def adicionar_hotel(user_id):
                 db.session.add(hotel)
                 db.session.commit()
 
-                flash('Hotel cadastrado com sucesso!')
+                flash('Hotel cadastrado com sucesso!', 'success')
             else:
-                flash('Hotel já existe...')
+                flash('Hotel já existe...', 'warning')
         return redirect(url_for('adicionar_hotel_endpoint'))
 
     return render_template('formulario_hotel.html',

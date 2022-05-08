@@ -30,14 +30,14 @@ def adicionar_quarto(user_id):
                              short_description=form.short_description.data,
                              kind=form.kind.data,
                              phone_extension=form.phone_extension.data,
-                             price=form.price.data,
+                             price=float(form.price.data.replace('.','').replace(',','.')),
                              guest_limit=form.guest_limit.data)
                 db.session.add(room)
                 db.session.commit()
 
-                flash('Quarto cadastrado com sucesso!')
+                flash('Quarto cadastrado com sucesso!', 'success')
             else:
-                flash('Quarto já existe...')
+                flash('Quarto já existe...', 'danger')
         return redirect(url_for('ocupacao_quartos_endpoint', id=form.hotel_id.data))
 
     return render_template('adicionar_quartos.html',
@@ -100,6 +100,7 @@ def editar_quarto(quarto_id, user_id):
         form.hotel_id.choices = [(hotel.id, hotel.name) for hotel in hoteis]
 
     if form.validate_on_submit():
+        
         if request.method == 'POST':
             to_update = Rooms.query.get_or_404(quarto_id)
             to_update.hotel_id = request.form['hotel_id']
@@ -108,7 +109,7 @@ def editar_quarto(quarto_id, user_id):
             to_update.short_description = request.form['short_description']
             to_update.kind = request.form['kind']
             to_update.phone_extension = request.form['phone_extension']
-            to_update.price = request.form['price']
+            to_update.price = float(request.form['price'].replace('.','').replace(',','.'))
             to_update.guest_limit = request.form['guest_limit']
             db.session.commit()
             flash('Quarto editado com sucesso!', 'success')
@@ -123,7 +124,7 @@ def editar_quarto(quarto_id, user_id):
     form.short_description.data = room.short_description
     form.kind.data = room.kind
     form.phone_extension.data = room.phone_extension
-    form.price.data = room.price
+    form.price.data = str(room.price).replace('.',',')
     form.guest_limit.data = room.guest_limit
 
     return render_template('adicionar_quartos.html',
