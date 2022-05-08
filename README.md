@@ -1,15 +1,9 @@
 # Grupo 17 - Sistema gerencial para hotéis e pousadas
 
-1. Cauê Montrose Bianchim
-2. Clayton de Oliveira Silva
-3. Victor Luiz Gluz Romano
-4. Marcio Jose de Carvalho
-5. Gustavo Gualberto Rocha de Lemos
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-O projeto consiste na criação de um sistema gerencial para hotéis e pousadas. Ele possuirá um módulo de detalhes sobre os quartos, com ocupação, detalhes sobre os
-hóspedes, estadia, reservas, etc, módulo sobre contas a pagar e a receber, módulo sobre controle de estoque e módulo de indicadores.
-
-* https://drive.google.com/file/d/14h7T6Cjqp_8NdUAzbIs4BVQeQmLfUjij/view?usp=sharing
+## Sobre
+A plataforma foi desenvolvida para organizar/gerenciar hoteis e pousadas. Ela possui uma visão tanto para o administrador dos hoteis quanto para gerente, recepcionista e financeiro de um hotel específico, possuindo um módulo para ocupação de quartos, módulo de reservas, módulo para cadastro de hóspedes, módulo de estoque, modulo financeiro, com listagem e edição em todos os módulos.
 
 ## Instalação e execução
 
@@ -30,19 +24,12 @@ Para executar em modo de produção:
 $ python waitress_server.py
 ```
 
-## Módulos
+## Tecnologias utilizadas
+- Backend: Flask
+- Frontend: HTML5, Bootstrap e Jinja2
 
-### Quartos
-Texto...
+## Contribuição
+Caso deseje contribuir, fique a vontade para dar um fork no repositório e submeter um pull request com as melhorias!
 
-### Reservas
-Texto...
-
-### Financeiro
-Texto...
-
-### Estoque
-Texto...
-
-### Indicadores
-Texto...
+## Licença
+MIT

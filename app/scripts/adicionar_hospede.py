@@ -46,9 +46,9 @@ def adicionar_hospede(user_id):
                 db.session.add(guest)
                 db.session.commit()
 
-                flash('Hospede cadastrado com sucesso!', 'success')
+                flash('Hóspede cadastrado com sucesso!', 'success')
             else:
-                flash('Hospede já existe...', 'danger')
+                flash('Hóspede já existe...', 'danger')
         return redirect(url_for('adicionar_hospede_endpoint'))
 
     return render_template('add_hospede.html',

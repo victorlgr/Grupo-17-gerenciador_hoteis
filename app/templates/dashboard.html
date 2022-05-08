@@ -114,6 +114,6 @@
             });
         }
 
-        grafico({{ contas_grafico | safe }});
+        grafico({{ contas_grafico | tojson | safe }});
     </script>
 {% endblock %}
