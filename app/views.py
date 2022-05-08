@@ -81,7 +81,7 @@ def save():
             db.session.add(admin)
             db.session.commit()
             flash('Cadastro realizado com sucesso!', 'success')
-            return redirect('/new')
+            return redirect(url_for('new'))
 
     return render_template('new.html', form=form, usuario=usuario)
 

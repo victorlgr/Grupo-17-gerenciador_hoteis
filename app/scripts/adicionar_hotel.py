@@ -38,9 +38,9 @@ def adicionar_hotel(user_id):
                 db.session.add(hotel)
                 db.session.commit()
 
-                flash('Hotel cadastrado com sucesso!')
+                flash('Hotel cadastrado com sucesso!', 'success')
             else:
-                flash('Hotel já existe...')
+                flash('Hotel já existe...', 'warning')
         return redirect(url_for('adicionar_hotel_endpoint'))
 
     return render_template('formulario_hotel.html',
@@ -67,8 +67,8 @@ def deletar_hotel(id, user_id):
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     db.session.delete(hotel)
     db.session.commit()
-    flash('Hotel deletado com sucesso!')
-    return redirect('/lista-hotel')
+    flash('Hotel deletado com sucesso!', 'success')
+    return redirect(url_for('lista_hotel'))
 
 
 def editar_hotel(hotel, user_id):
@@ -99,7 +99,8 @@ def editar_hotel(hotel, user_id):
             to_update_address.number = form.numero.data
             to_update_address.complement = form.complemento.data
             db.session.commit()
-        return redirect('/lista-hotel')
+            flash('Hotel editado com sucesso!', 'success')
+        return redirect(url_for('lista_hotel'))
 
     form.name.data = hotel_data.name
     form.phone.data = hotel_data.phone

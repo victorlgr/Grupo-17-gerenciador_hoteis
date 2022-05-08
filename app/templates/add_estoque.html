@@ -22,30 +22,30 @@
         <div class="row">
 
             {% if current_user.get_profile() in ['admin'] %}
-                <div class="form-group col-6">
-                    {{ form.hotel_id.label(class="form-label") }}
+                <div class="form-group col-6 mt-2">
+                    {{ form.hotel_id.label(class="form-label mb-0") }}
                     {{ form.hotel_id(class="form-control") }}
                 </div>
             {% else %}
-                <div class="form-group col-6" style="display: none">
-                    {{ form.hotel_id.label(class="form-label") }}
+                <div class="form-group col-6 mt-2" style="display: none">
+                    {{ form.hotel_id.label(class="form-label mb-0") }}
                     {{ form.hotel_id(class="form-control") }}
                 </div>
             {% endif %}
 
 
-            <div class="form-group col-6">
-                {{ form.categoria.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.categoria.label(class="form-label mb-0") }}
                 {{ form.categoria(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.nome.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.nome.label(class="form-label mb-0") }}
                 {{ form.nome(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.detalhes.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.detalhes.label(class="form-label mb-0") }}
                 {{ form.detalhes(class="form-control") }}
             </div>
 
