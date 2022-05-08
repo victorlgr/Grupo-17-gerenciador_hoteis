@@ -28,6 +28,7 @@ def adicionar_reserva(user_id):
                 total_guests = form.total_guests.data
                 room_id = form.room_id.data
                 room = Rooms.query.filter_by(id=room_id).first()
+                total_price = room.price * (abs(form.check_out.data - form.check_in.data).days + 1)
 
                 if total_guests > room.guest_limit:
                     flash('Esse quarto não tem capacidade para esse número de hóspedes', 'danger')
@@ -38,6 +39,7 @@ def adicionar_reserva(user_id):
                                     check_out=form.check_out.data,
                                     room_id=form.room_id.data,
                                     guest_id=form.guest_id.data,
+                                    total_price=total_price,
                                     user_id=user_id)
                     db.session.add(r)
                     db.session.flush()
@@ -47,7 +49,7 @@ def adicionar_reserva(user_id):
                                     guest_id=form.guest_id.data,
                                     reservation_id=r.id,
                                     descricao=f"Conta ID {r.id} - Quarto {room.number} - Período {form.check_in.data.strftime('%d/%m/%Y')} a {form.check_out.data.strftime('%d/%m/%Y')}",
-                                    valor=room.price * (abs(form.check_out.data - form.check_in.data).days + 1))
+                                    valor=total_price)
                     db.session.add(conta)
 
                     db.session.commit()

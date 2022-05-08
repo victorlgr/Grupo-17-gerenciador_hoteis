@@ -46,7 +46,7 @@
                 <td>{{ conta.valor }}</td>
                 <td>{{ conta.data_cadastro }}</td>
                 <td>{{ conta.data_pgto }}</td>
-                <td><a href="{{ url_for('editar_conta_endpoint', id=conta.id) }}">Link</a></td>
+                <td><a href="{{ url_for('editar_conta_endpoint', id=conta.id) }}">Editar</a></td>
             <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#Modal_{{ conta.id }}"

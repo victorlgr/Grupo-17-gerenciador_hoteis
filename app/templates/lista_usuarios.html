@@ -6,8 +6,8 @@
 </div>
 
 
-{% for mensagem in get_flashed_messages() %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+{% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">
         {{ mensagem }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-    <br>
-    <h1>{{ titulo }}</h1>
-    <br>
+
+    <div class="mt-4">
+        <h1 style="display: inline-block;">{{ titulo }}</h1>
+        {% if quarto %}
+            <button type="button" class="btn btn-outline-danger" style="float: right" data-bs-toggle="modal"
+                    data-bs-target="#Modal_{{ quarto.id }}"
+                    value="{{ quarto.id }}" id="hotel_{{ quarto.id }}">
+                    Deletar
+            </button>
+        {% endif %}
+        <br>
+    </div>
 
     {% for mensagem in get_flashed_messages() %}
         {% if mensagem == 'Quarto cadastrado com sucesso!' %}
@@ -21,38 +30,48 @@
 
         <div class="row">
             {% if user.hotel_id is none %}
-                <div class="form-group col-6">
-                    {{ form.hotel_id.label(class="form-label") }}
+                <div class="form-group col-6 mt-2">
+                    {{ form.hotel_id.label(class="form-label mb-0") }}
                     {{ form.hotel_id(class="form-control") }}
                 </div>
             {% else %}
-                <div class="form-group col-6" style="display: none">
-                    {{ form.hotel_id.label(class="form-label") }}
+                <div class="form-group col-6 mt-2" style="display: none">
+                    {{ form.hotel_id.label(class="form-label mb-0") }}
                     {{ form.hotel_id(class="form-control") }}
                 </div>
             {% endif %}
-            <div class="form-group col-6">
-                {{ form.number.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.number.label(class="form-label mb-0") }}
                 {{ form.number(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.kind.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.name.label(class="form-label mb-0") }}
+                {{ form.name(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6 mt-2">
+                {{ form.short_description.label(class="form-label mb-0") }}
+                {{ form.short_description(class="form-control") }}
+            </div>
+
+            <div class="form-group col-6 mt-2">
+                {{ form.kind.label(class="form-label mb-0") }}
                 {{ form.kind(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.phone_extension.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.phone_extension.label(class="form-label mb-0") }}
                 {{ form.phone_extension(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.price.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.price.label(class="form-label mb-0") }}
                 {{ form.price(class="form-control") }}
             </div>
 
-            <div class="form-group col-6">
-                {{ form.guest_limit.label(class="form-label") }}
+            <div class="form-group col-6 mt-2">
+                {{ form.guest_limit.label(class="form-label mb-0") }}
                 {{ form.guest_limit(class="form-control") }}
             </div>
 
@@ -64,5 +83,29 @@
             </div>
         </div>
     </form>
+
+    {% if quarto %}
+        <div class="modal fade" id="Modal_{{ quarto.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Deletar quarto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja deletar o quarto <b>{{ quarto.number }}</b>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a href="{{ url_for('deletar_quarto_endpoint', id=quarto.id) }}">
+                            <button type="button" class="btn btn-danger"
+                            >Deletar
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

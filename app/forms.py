@@ -41,18 +41,20 @@ class AdicionarHotel(FlaskForm):
     cnpj = StringField('CNPJ', validators=[DataRequired()])
     endereco = StringField('Endereço', validators=[DataRequired()])
     numero = StringField('Número', validators=[DataRequired()])
-    complemento = StringField('Complemento', validators=[DataRequired()])
+    complemento = StringField('Complemento')
     bairro = StringField('Bairro', validators=[DataRequired()])
     cidade = StringField('Cidade', validators=[DataRequired()])
     estado = StringField('Estado', validators=[DataRequired()])
     pais = StringField('Pais', validators=[DataRequired()])
     cep = StringField('CEP', validators=[DataRequired()])
 
-    submeter = SubmitField('Submeter')
+    submeter = SubmitField('Adicionar')
 
 
 class AdicionarQuarto(FlaskForm):
     hotel_id = SelectField('Hotel', validators=[DataRequired()])
+    name = StringField('Nome', validators=[DataRequired()])
+    short_description = StringField('Descrição', validators=[DataRequired()])
     number = StringField('Número', validators=[DataRequired()])
     kind = StringField('Tipo', validators=[DataRequired()])
     phone_extension = StringField('Extensão telefone', validators=[DataRequired()])
@@ -84,7 +86,7 @@ class AdicionarHospede(FlaskForm):
     birthday = StringField('Data Nascimento', validators=[DataRequired()])
     endereco = StringField('Endereço', validators=[DataRequired()])
     numero = StringField('Número', validators=[DataRequired()])
-    complemento = StringField('Complemento', validators=[DataRequired()])
+    complemento = StringField('Complemento')
     bairro = StringField('Bairro', validators=[DataRequired()])
     cidade = StringField('Cidade', validators=[DataRequired()])
     estado = StringField('Estado', validators=[DataRequired()])

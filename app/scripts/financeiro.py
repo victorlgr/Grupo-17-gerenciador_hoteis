@@ -23,12 +23,12 @@ def adicionar_conta(user_id):
                             hotel_id=form.hotel_id.data,
                             guest_id=form.guest_id.data,
                             descricao=form.descricao.data,
-                            valor=form.valor.data,
+                            valor=float(form.valor.data.replace('.','').replace(',','.')),
                             data_pgto=form.data_pagamento.data)
             db.session.add(conta)
             db.session.commit()
 
-            flash('Conta cadastrada com sucesso!')
+            flash('Conta cadastrada com sucesso!', 'success')
         return redirect('/adicionar-conta')
 
     return render_template('add_conta.html',
@@ -76,18 +76,18 @@ def editar_conta(conta_id, user_id):
             to_update_conta.hotel_id = form.hotel_id.data
             to_update_conta.guest_id = form.guest_id.data
             to_update_conta.descricao = form.descricao.data
-            to_update_conta.valor = form.valor.data
+            to_update_conta.valor = float(form.valor.data.replace('.','').replace(',','.'))
             to_update_conta.data_pgto = form.data_pagamento.data
             db.session.commit()
 
-            flash('Conta editada com sucesso!')
+            flash('Conta editada com sucesso!', 'success')
         return redirect('/listar-contas')
 
     form.tipo.data = conta.tipo
     form.hotel_id.data = conta.hotel_id
     form.guest_id.data = conta.guest_id
     form.descricao.data = conta.descricao
-    form.valor.data = conta.valor
+    form.valor.data = str(conta.valor).replace('.',',')
     form.data_pagamento.data = conta.data_pgto
 
     return render_template('add_conta.html',

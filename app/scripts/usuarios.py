@@ -35,7 +35,7 @@ def deletar_usuario(id_usuario, user_id):
         return '<h1>Erro! Você não pode acessar este conteúdo!</h1>'
     db.session.delete(user)
     db.session.commit()
-    flash('Usuário deletado com sucesso!')
+    flash('Usuário deletado com sucesso!', 'success')
     return redirect(url_for('lista_usuarios_endpoint'))
 
 
@@ -58,7 +58,7 @@ def editar_usuario(id_usuario, user_id):
             to_update.email = request.form['email']
             to_update.profile = request.form['profile']
             db.session.commit()
-            flash('Usuário editado com sucesso!')
+            flash('Usuário editado com sucesso!', 'success')
         return redirect(url_for('lista_usuarios_endpoint'))
 
     form.hotel_id.default = user.hotel_id
